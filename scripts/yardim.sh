@@ -10,11 +10,11 @@ mesaj yesil "
 		-t | --temizle
 		Tüm çalışmaları siler ve çalışmaya sıfırdan başlamanızı sağlar. Silme işlemi geri alınamaz.
 
-		-h | --hazirlik
+		-o | --onhazirlik
 		Gerekli klasör yapısını oluşturur, temel paketlerin indirilmesi ve kurulması işlemleri yapar.
 
 		-i | --iso
-		Son aşamadır, dağıtımı iso formatına çevirir. Öncesinde --hazirlik ile gerekli temel paketlerin
+		Son aşamadır, dağıtımı iso formatına çevirir. Öncesinde --onhazirlik ile gerekli temel paketlerin
 		kurulmuş olması gerekmektedir.
 
 	Yerel Paket Sistemi:
