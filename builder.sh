@@ -1,9 +1,11 @@
 #!/bin/bash
 
 # 2 Temmuz 2017 20:00
-# Beta 1 / aydin@komutan.org
+# Beta 2 / aydin@komutan.org
 set -e
 
+# builder mevcut dizini
+BUILDER_ROOT=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 
 # ayarlar
 . ayarlar.conf
@@ -19,6 +21,7 @@ if [ "$(id -u)" != "0" ]; then mesaj hata "Root hakları ile çalıştırılmal�
 
 # ayarlar.conf'da belirtilmesi gereken degiskenlerin kontrolu
 if [ -z "$DAGITIM" ]; then 			mesaj hata "DAGITIM=\"\" ayarlar.conf dosyasında tanımlanmamış!"; exit 1; fi
+if [ -z "$KODADI" ]; then 			mesaj hata "KODADI=\"\" ayarlar.conf dosyasında tanımlanmamış!"; exit 1; fi
 if [ -z "$VERSIYON" ];then 			mesaj hata "VERSIYON=\"\" ayarlar.conf dosyasında tanımlanmamış!"; exit 1; fi
 if [ -z "$MASAUSTU" ];then 			mesaj hata "MASAUSTU=\"\" ayarlar.conf dosyasında tanımlanmamış!"; exit 1; fi
 if [ -z "$GIRISYONETICISI" ];then	mesaj hata "GIRISYONETICISI=\"\" ayarlar.conf dosyasında tanımlanmamış!"; exit 1; fi
@@ -36,16 +39,17 @@ if [ ! -d "/var/lib/pkg/DB/cdrkit" ]; then		mps kur cdrkit;		fi
 
 
 case "$1" in
+	# iso islemleri
 	-t|--temizle)
 		. scripts/temizle.sh
 		;;
-	-h|--hazirlik)
-		. scripts/iso-hazirlik.sh
+	-o|--onhazirlik)
+		. scripts/iso-onhazirlik.sh
 		;;
 	-i|--iso)
 		. scripts/iso-olustur.sh
 		;;
-
+		
 	# yps secenekleri
 	--yps-olustur)
 		. scripts/yps-olustur.sh
