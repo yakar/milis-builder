@@ -63,7 +63,7 @@ case "$1" in
 	--yps-kontrol)
 		. scripts/yps-kontrol.sh
 		;;
-	-y)
+	-y|--yardim)
 		. scripts/yardim.sh
 		;;
 	*)
