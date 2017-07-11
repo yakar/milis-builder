@@ -3,7 +3,7 @@
 #umount
 _umount
 
-#son ayar yuklemeleri
+# son ayar yuklemeleri
 mesaj bilgi "ISO için ön ayarlar yapılıyor.."
 cd /sources/milis.git/
 cp -f rootfs/etc/bashrc $LFS/etc/bashrc
@@ -11,30 +11,22 @@ cp -f rootfs/etc/profile $LFS/etc/profile
 cp -f ayarlar/mps.conf $LFS/etc/mps.conf
 cp -f rootfs/etc/rc.d/init.d/* $LFS/etc/rc.d/init.d/
 
-rm iso_icerik/boot/kernel
-rm iso_icerik/boot/initramfs
-rm -r iso_icerik/LiveOS
+rm -f iso_icerik/boot/kernel
+rm -f iso_icerik/boot/initramfs
+rm -rf iso_icerik/LiveOS
 cp $LFS/boot/kernel-* iso_icerik/boot/kernel
 cp $LFS/boot/initramfs* iso_icerik/boot/initramfs
 
+
+# LiveOS ayarları
 mesaj bilgi "LiveOS ayarları yapılıyor..."
-anayer=$(du -sm "$LFS"|awk '{print $1}')
-fazladan="$((anayer))"
-mkdir -p tmp
 mkdir -p tmp/LiveOS
-#fallocate -l 32G tmp/LiveOS/rootfs.img
-#if [ -f $bos_imaj ];
-#then
-   #cp $bos_imaj tmp/LiveOS/ext3fs.img
-#else
-   #dd if=/dev/zero of=tmp/LiveOS/ext3fs.img bs=1MB count="$((anayer+fazladan))"
+
 dd if=/dev/zero of=tmp/LiveOS/ext3fs.img bs=1MB count=16384
-#dd if=/dev/zero of=tmp/LiveOS/ext3fs.img bs=1MB count=16192
 mke2fs -t ext4 -L $ISO_ETIKET -F tmp/LiveOS/ext3fs.img
 mkdir -p temp-root
 mount -o loop tmp/LiveOS/ext3fs.img temp-root
 cp -dpR $LFS/* temp-root/
-#rsync -a kur/ temp-root
 umount -l temp-root
 rm -rf temp-root 
 mkdir -p iso_icerik/LiveOS
@@ -42,6 +34,34 @@ mksquashfs tmp iso_icerik/LiveOS/squashfs.img -comp xz -b 256K -Xbcj x86
 chmod 444 iso_icerik/LiveOS/squashfs.img
 rm -rf tmp
 
+
+# isolinux ve syslinux
+mesaj bilgi "ISOLinux ve SYSLinux ayarları yapılıyor"
+sed -i "s/^label.*/label $DAGITIM $VERSIYON Live/g" iso_icerik/boot/syslinux/syslinux.cfg
+sed -i "s/CDLABEL=[A-Z_]*/CDLABEL=$ISO_ETIKET/g" iso_icerik/boot/syslinux/syslinux.cfg
+cp -r iso_icerik/boot/syslinux/syslinux.cfg iso_icerik/boot/isolinux/isolinux.cfg
+cp -r $BUILDER_ROOT/ozellestirme/syslinux/arkaplan.png iso_icerik/boot/syslinux/arkaplan.png
+cp -r $BUILDER_ROOT/ozellestirme/syslinux/arkaplan.png iso_icerik/boot/isolinux/arkaplan.png
+
+# slim
+cp -r $BUILDER_ROOT/ozellestirme/slim/panel.png $LFS/usr/share/slim/themes/milis/
+
+# xfce4 arkaplanlar ve logo
+if [ $MASAUSTU == "xfce4" ]; then
+	# varsayilan arkaplan
+	cp -r $BUILDER_ROOT/ozellestirme/xfce4/backgrounds/milis-linux-arkaplan.png /sources/milis.git/ayarlar/
+
+	# varsayılan milis logo
+	mv -f $BUILDER_ROOT/ozellestirme/xfce4/backgrounds/milislogo.png /sources/milis.git/ayarlar/
+
+	# cesitli arkaplanlar
+	cp -r $BUILDER_ROOT/ozellestirme/xfce4/backgrounds/* /usr/share/backgrounds/xfce/
+fi
+
+# varsayılan root parolası
+sed -i "47s/milis/$ROOT_PAROLASI/g" $LFS/etc/init.d/sysklogd
+
+# ISO oluştur 
 mesaj bilgi "ISO oluşturuluyor..."
 ISODOSYA=`echo $DAGITIM | tr '[A-Z]' '[a-z]' | tr ' ' '-'`-$VERSIYON-LIVE-`date +%Y%m%d%H%M`
 if [ $UEFI == "1" ]; then
