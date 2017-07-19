@@ -17,11 +17,58 @@ rm -rf iso_icerik/LiveOS
 cp $LFS/boot/kernel-* iso_icerik/boot/kernel
 cp $LFS/boot/initramfs* iso_icerik/boot/initramfs
 
+#
+# OZELLESTIRMELER
+#
+
+# grub özelleştirme
+echo "DISTRIB_ID=\"$DAGITIM\"" > /etc/lsb-release
+echo "DISTRIB_ID=\"DISTRIB_RELEASE=\"$VERSIYON\"" >> /etc/lsb-release
+echo "DISTRIB_ID=\"DISTRIB_DESCRIPTION=\"$DAGITIM $VERSIYON\"" >> /etc/lsb-release
+echo "DISTRIB_ID=\"DISTRIB_CODENAME=\"Atilla\"" >> /etc/lsb-release
+
+# isolinux ve syslinux
+mesaj bilgi "ISOLinux ve SYSLinux ayarları yapılıyor"
+sed -i "s/^label.*/label $DAGITIM $KODADI $VERSIYON Live/g" iso_icerik/boot/syslinux/syslinux.cfg
+sed -i "s/CDLABEL=[A-Z_]*/CDLABEL=$ISO_ETIKET/g" iso_icerik/boot/syslinux/syslinux.cfg
+cp -r iso_icerik/boot/syslinux/syslinux.cfg iso_icerik/boot/isolinux/isolinux.cfg
+cp -r $BUILDER_ROOT/$OZELLESTIRME/syslinux/arkaplan.png iso_icerik/boot/syslinux/arkaplan.png
+cp -r $BUILDER_ROOT/$OZELLESTIRME/syslinux/arkaplan.png iso_icerik/boot/isolinux/arkaplan.png
+
+# slim
+mesaj bilgi "Slim giriş yöneticisi arkaplanı kopyalanıyor"
+cp -r $BUILDER_ROOT/$OZELLESTIRME/slim/panel.png $LFS/usr/share/slim/themes/milis/
+
+# xfce4 arkaplanlar ve logo
+if [ $MASAUSTU == "xfce4" ]; then
+	# varsayilan arkaplan
+	cp -r $BUILDER_ROOT/$OZELLESTIRME/xfce4/backgrounds/milis-linux-arkaplan.png $LFS/sources/milis.git/ayarlar/
+
+	# varsayılan milis logo
+	cp -r $BUILDER_ROOT/$OZELLESTIRME/xfce4/milislogo.png $LFS/sources/milis.git/ayarlar/
+
+	# cesitli arkaplanlar
+	cp -r $BUILDER_ROOT/$OZELLESTIRME/xfce4/backgrounds/* $LFS/usr/share/backgrounds/xfce/
+fi
+
+# kurulum.desktop dağıtım adı
+mesaj bilgi "Masaüstü kurulum kısayolu açıklaması düzenleniyor"
+sed -i "s/Milis Linux/$DAGITIM/g" $LFS/root/Desktop/kurulum.desktop
+sed -i "s/Milis Linux/$DAGITIM/g" $LFS/root/Masaüstü/kurulum.desktop
+	
+# varsayılan root parolası
+mesaj bilgi "root varsayılan parolası değiştiriliyor"
+sed -i "49s/milis/$ROOT_PAROLASI/g" $LFS/etc/init.d/sysklogd
+# / OZELLESTIRMELER
+
 
 # LiveOS ayarları
 mesaj bilgi "LiveOS ayarları yapılıyor..."
-mkdir -p tmp/LiveOS
+# onceki iso olusturmada hata alınırsa temp-root/ ve tmp/ kalmış olabilir
+if [ -d temp-root ]; then	umount -l temp-root; rm -rf temp-root; fi
+if [ -d tmp ]; then			rm -rf tmp; fi
 
+mkdir -p tmp/LiveOS
 dd if=/dev/zero of=tmp/LiveOS/ext3fs.img bs=1MB count=16384
 mke2fs -t ext4 -L $ISO_ETIKET -F tmp/LiveOS/ext3fs.img
 mkdir -p temp-root
@@ -34,32 +81,6 @@ mksquashfs tmp iso_icerik/LiveOS/squashfs.img -comp xz -b 256K -Xbcj x86
 chmod 444 iso_icerik/LiveOS/squashfs.img
 rm -rf tmp
 
-
-# isolinux ve syslinux
-mesaj bilgi "ISOLinux ve SYSLinux ayarları yapılıyor"
-sed -i "s/^label.*/label $DAGITIM $VERSIYON Live/g" iso_icerik/boot/syslinux/syslinux.cfg
-sed -i "s/CDLABEL=[A-Z_]*/CDLABEL=$ISO_ETIKET/g" iso_icerik/boot/syslinux/syslinux.cfg
-cp -r iso_icerik/boot/syslinux/syslinux.cfg iso_icerik/boot/isolinux/isolinux.cfg
-cp -r $BUILDER_ROOT/ozellestirme/syslinux/arkaplan.png iso_icerik/boot/syslinux/arkaplan.png
-cp -r $BUILDER_ROOT/ozellestirme/syslinux/arkaplan.png iso_icerik/boot/isolinux/arkaplan.png
-
-# slim
-cp -r $BUILDER_ROOT/ozellestirme/slim/panel.png $LFS/usr/share/slim/themes/milis/
-
-# xfce4 arkaplanlar ve logo
-if [ $MASAUSTU == "xfce4" ]; then
-	# varsayilan arkaplan
-	cp -r $BUILDER_ROOT/ozellestirme/xfce4/backgrounds/milis-linux-arkaplan.png /sources/milis.git/ayarlar/
-
-	# varsayılan milis logo
-	mv -f $BUILDER_ROOT/ozellestirme/xfce4/backgrounds/milislogo.png /sources/milis.git/ayarlar/
-
-	# cesitli arkaplanlar
-	cp -r $BUILDER_ROOT/ozellestirme/xfce4/backgrounds/* /usr/share/backgrounds/xfce/
-fi
-
-# varsayılan root parolası
-sed -i "47s/milis/$ROOT_PAROLASI/g" $LFS/etc/init.d/sysklogd
 
 # ISO oluştur 
 mesaj bilgi "ISO oluşturuluyor..."
