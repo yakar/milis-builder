@@ -83,10 +83,3 @@ chroot $LFS /bin/bash -c "cp -f /sources/milis.git/ayarlar/kurulum.desktop /root
 chroot $LFS /bin/bash -c "cp -f /sources/milis.git/ayarlar/kurulum.desktop /root/Masaüstü/"
 chroot $LFS /bin/bash -c "tamir_touchpad"
 chroot $LFS /bin/bash -c "tamir_masaustu"
-
-
-# grub özelleştirme
-echo "DISTRIB_ID=\"$DAGITIM\"" > /etc/lsb-release
-echo "DISTRIB_ID=\"DISTRIB_RELEASE=\"$VERSIYON\"" >> /etc/lsb-release
-echo "DISTRIB_ID=\"DISTRIB_DESCRIPTION=\"$DAGITIM $VERSIYON\"" >> /etc/lsb-release
-echo "DISTRIB_ID=\"DISTRIB_CODENAME=\"Atilla\"" >> /etc/lsb-release
