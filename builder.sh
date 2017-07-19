@@ -29,6 +29,7 @@ if [ -z "$HOSTNAME" ];then 			mesaj hata "HOSTNAME=\"\" ayarlar.conf dosyasında
 if [ -z "$ISO_ETIKET" ];then 		mesaj hata "ISO_ETIKET=\"\" ayarlar.conf dosyasında tanımlanmamış!"; exit 1; fi
 if [ -z "$UEFI" ];then 				mesaj hata "UEFI=\"\" ayarlar.conf dosyasında tanımlanmamış!"; exit 1; fi
 if [ -z "$OZELLESTIRME" ];then 		mesaj hata "OZELLESTIRME=\"\" ayarlar.conf dosyasında tanımlanmamış!"; exit 1; fi
+if [ ! -d "$OZELLESTIRME" ];then 	mesaj hata "ayarlar.conf da belirtilen '$OZELLESTIRME' klasörü bulunamadı!"; exit 1; fi
 if [ -z "$LFS" ];then 				mesaj hata "LFS=\"\" ayarlar.conf dosyasında tanımlanmamış!"; exit 1; fi
 if [ -z "$PAKET_SUNUCUSU" ];then	mesaj hata "PAKET_SUNUCUSU=\"\" ayarlar.conf dosyasında tanımlanmamış!"; exit 1; fi
 
