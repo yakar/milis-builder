@@ -1,5 +1,6 @@
 #!/bin/bash
 
+mesaj bilgi "$DAGITIM için ISO hazırlanıyor..."
 #umount
 _umount
 
@@ -22,10 +23,10 @@ cp $LFS/boot/initramfs* iso_icerik/boot/initramfs
 #
 
 # grub özelleştirme
-echo "DISTRIB_ID=\"$DAGITIM\"" > /etc/lsb-release
-echo "DISTRIB_ID=\"DISTRIB_RELEASE=\"$VERSIYON\"" >> /etc/lsb-release
-echo "DISTRIB_ID=\"DISTRIB_DESCRIPTION=\"$DAGITIM $VERSIYON\"" >> /etc/lsb-release
-echo "DISTRIB_ID=\"DISTRIB_CODENAME=\"Atilla\"" >> /etc/lsb-release
+echo "DISTRIB_ID=\"$DAGITIM\"" > $LFS/etc/lsb-release
+echo "DISTRIB_RELEASE=\"$VERSIYON\"" >> $LFS/etc/lsb-release
+echo "DISTRIB_DESCRIPTION=\"$DAGITIM $KODADI $VERSIYON\"" >> $LFS/etc/lsb-release
+echo "DISTRIB_CODENAME=\"$KODADI\"" >> $LFS/etc/lsb-release
 
 # isolinux ve syslinux
 mesaj bilgi "ISOLinux ve SYSLinux ayarları yapılıyor"
