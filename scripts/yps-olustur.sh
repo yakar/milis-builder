@@ -30,7 +30,7 @@ mkdir -p $YERELPS
 cd $YERELPS
 
 mesaj bilgi "Paketler indiriliyor.."
-#wget -r --no-parent http://$UZAK_PAKET_SUNUCUSU -P $YERELPS
+wget -r --no-parent http://$UZAK_PAKET_SUNUCUSU -P $YERELPS
 mv $UZAK_PAKET_SUNUCUSU/*.lz $YERELPS
 rm -rf $UZAK_PAKET_SUNUCUSU
 pkvt_olustur
