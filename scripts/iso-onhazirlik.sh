@@ -79,6 +79,7 @@ chroot $LFS /bin/bash -c "cp -rf /sources/milis.git/ayarlar/milbit/milbit.deskto
 chroot $LFS /bin/bash -c "mkdir -p /root/{Desktop,Masaüstü}"
 chroot $LFS /bin/bash -c "cp -f /sources/milis.git/ayarlar/kurulum.desktop /root/Desktop/"
 chroot $LFS /bin/bash -c "cp -f /sources/milis.git/ayarlar/kurulum.desktop /root/Masaüstü/"
+chroot $LFS /bin/bash -c "chmod +x /root/Desktop/*.desktop"
 chroot $LFS /bin/bash -c "tamir_touchpad"
 chroot $LFS /bin/bash -c "tamir_masaustu"
 
