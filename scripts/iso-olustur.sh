@@ -18,11 +18,8 @@ rm -rf iso_icerik/LiveOS
 cp $LFS/boot/kernel-* iso_icerik/boot/kernel
 cp $LFS/boot/initramfs* iso_icerik/boot/initramfs
 
-#
-# OZELLESTIRMELER
-#
 
-# grub özelleştirme
+# grub
 echo "DISTRIB_ID=\"$DAGITIM\"" > $LFS/etc/lsb-release
 echo "DISTRIB_RELEASE=\"$VERSIYON\"" >> $LFS/etc/lsb-release
 echo "DISTRIB_DESCRIPTION=\"$DAGITIM $KODADI $VERSIYON\"" >> $LFS/etc/lsb-release
@@ -36,22 +33,6 @@ cp -r iso_icerik/boot/syslinux/syslinux.cfg iso_icerik/boot/isolinux/isolinux.cf
 cp -r $BUILDER_ROOT/$OZELLESTIRME/syslinux/arkaplan.png iso_icerik/boot/syslinux/arkaplan.png
 cp -r $BUILDER_ROOT/$OZELLESTIRME/syslinux/arkaplan.png iso_icerik/boot/isolinux/arkaplan.png
 
-# slim
-mesaj bilgi "Slim giriş yöneticisi arkaplanı kopyalanıyor"
-cp -r $BUILDER_ROOT/$OZELLESTIRME/slim/panel.png $LFS/usr/share/slim/themes/milis/
-
-# xfce4 arkaplanlar ve logo
-if [ $MASAUSTU == "xfce4" ]; then
-	# varsayilan arkaplan
-	cp -r $BUILDER_ROOT/$OZELLESTIRME/xfce4/backgrounds/milis-linux-arkaplan.png $LFS/sources/milis.git/ayarlar/
-
-	# varsayılan milis logo
-	cp -r $BUILDER_ROOT/$OZELLESTIRME/xfce4/milislogo.png $LFS/sources/milis.git/ayarlar/
-
-	# cesitli arkaplanlar
-	cp -r $BUILDER_ROOT/$OZELLESTIRME/xfce4/backgrounds/* $LFS/usr/share/backgrounds/xfce/
-fi
-
 # kurulum.desktop dağıtım adı
 mesaj bilgi "Masaüstü kurulum kısayolu açıklaması düzenleniyor"
 sed -i "s/Milis Linux/$DAGITIM/g" $LFS/root/Desktop/kurulum.desktop
@@ -60,7 +41,6 @@ sed -i "s/Milis Linux/$DAGITIM/g" $LFS/root/Masaüstü/kurulum.desktop
 # varsayılan root parolası
 mesaj bilgi "root varsayılan parolası değiştiriliyor"
 sed -i "49s/milis/$ROOT_PAROLASI/g" $LFS/etc/init.d/sysklogd
-# / OZELLESTIRMELER
 
 
 # LiveOS ayarları
@@ -107,9 +87,11 @@ else
 fi
 
 ISOBOYUT=$(du -sbh $ISODOSYA.iso | awk '{print $1}')
+ISOYOLU=`pwd`/$ISODOSYA.iso
+mv $ISOYOLU /mnt/
 mesaj yesil "
-	*********************************************************************
+	*********************************************************
 	* ISO olusturuldu..
-	* `pwd`/$ISODOSYA.iso ($ISOBOYUT)
-	*********************************************************************
+	* /mnt/$ISODOSYA.iso ($ISOBOYUT)
+	*********************************************************
 "

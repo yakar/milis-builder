@@ -44,24 +44,23 @@ for paket in $EXTRA_PAKETLER; do
 done
 
 
-mesaj bilgi "linux-firmware, kernel, dracut, xorg ve $MASAUSTU kurulumu";
+mesaj bilgi "linux-firmware, kernel, dracut, xorg kurulumu";
 if [ ! -d "$LFS/var/lib/pkg/DB/linux-firmware" ]; then	chroot $LFS /bin/bash -c "mps kur linux-firmware"; fi
 if [ ! -d "$LFS/var/lib/pkg/DB/kernel" ]; then			chroot $LFS /bin/bash -c "mps kur kernel"; fi
+if [ ! -f "$LFS/usr/bin/dracut" ]; then					rm -rf $LFS/usr/bin/dracut; fi # dracut dizin ise sil..
 if [ ! -d "$LFS/var/lib/pkg/DB/dracut" ]; then			chroot $LFS /bin/bash -c "mps -ik dracut || true"; fi
 if [ ! -d "$LFS/var/lib/pkg/DB/xorg" ]; then			chroot $LFS /bin/bash -c "mps kur xorg"; fi
-#chroot $LFS /bin/bash -c "mps -kuruld /root/talimatname/temel-ek/derleme.sira"
-chroot $LFS /bin/bash -c "mps kur $MASAUSTU"
 
+
+# Desktop Environment kurulumu
+. scripts/de-$MASAUSTU.sh
 
 # girisci kurulum
-mesaj bilgi "$GIRISYONETICISI kurulum ve ayarları";
-if [ ! -d "$LFS/var/lib/pkg/DB/$GIRISYONETICISI" ]; then chroot $LFS /bin/bash -c "mps kur $GIRISYONETICISI"; fi
-chroot $LFS /bin/bash -c "mps -kurul /root/ayarlar/gerekli_programlar_$MASAUSTU"
-chroot $LFS /bin/bash -c "cp /root/ayarlar/.xinitrc.$MASAUSTU /root/.xinitrc"
-chroot $LFS /bin/bash -c "cp -r /root/ayarlar/$MASAUSTU/.config /root/"
+. scripts/de-login-$GIRISYONETICISI.sh
+
+# hostname
 chroot $LFS /bin/bash -c "echo 'HOSTNAME=\"$HOSTNAME\"' > /etc/sysconfig/network"
 chroot $LFS /bin/bash -c "echo 'MANAGER=\"networkmanager\"' >> /etc/sysconfig/network"
-#if [ ! -f "$LFS/usr/bin/dracut" ]; then chroot $LFS /bin/bash -c "tamir_dracut"; fi
 
 
 # baslatici olustur
@@ -75,8 +74,7 @@ chroot $LFS /bin/bash -c "mps -tro"
 chroot $LFS /bin/bash -c "export LC_ALL='tr_TR.UTF-8'"
 chroot $LFS /bin/bash -c "export LANG='tr_TR.UTF-8'"
 chroot $LFS /bin/bash -c "xdg-user-dirs-update"
-chroot $LFS /bin/bash -c "if [ -f /usr/bin/slim ];then 	cp -f /root/ayarlar/.xinitrc-$MASAUSTU.slim /root/.xinitrc; fi"
-chroot $LFS /bin/bash -c "if [ -f /usr/bin/lxdm ];then cp -rf /sources/milis.git/ayarlar/servisler/mbd/init.d/lxdm /etc/init.d/; fi"
+#chroot $LFS /bin/bash -c "if [ -f /usr/bin/lxdm ];then cp -rf /sources/milis.git/ayarlar/servisler/mbd/init.d/lxdm /etc/init.d/; fi"
 chroot $LFS /bin/bash -c "cp -rf /sources/milis.git/ayarlar/milbit/milbit.desktop /usr/share/applications/"
 chroot $LFS /bin/bash -c "mkdir -p /root/{Desktop,Masaüstü}"
 chroot $LFS /bin/bash -c "cp -f /sources/milis.git/ayarlar/kurulum.desktop /root/Desktop/"
