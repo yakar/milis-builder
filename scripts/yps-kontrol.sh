@@ -17,5 +17,5 @@ elif [ $PAKET_SUNUCUSU != "127.0.0.1:8888" ]; then
 	mesaj hata "ayarlar.conf dosyasında PAKET_SUNUCUSU değerine 127.0.0.1:8888 girilmemiş!"
 
 else
-	mesaj bilgi "Herşey yolunda görünüyor!"
+	mesaj bilgi "Herşey yolunda görünüyor.."
 fi
