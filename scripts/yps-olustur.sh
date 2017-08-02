@@ -37,7 +37,7 @@ rm -rf $UZAK_PAKET_SUNUCUSU
 mesaj bilgi "Paket veritabanı oluşturuluyor, lütfen bekleyiniz.."
 pkvt_olustur
 
-YPS_BOYUT=`du -h $YERELPS | awk '{print $1}'`
+YPS_BOYUT=`du -h -P -d 1 $YERELPS | awk '{print $1}'`
 mesaj bilgi "Yerel paket sunucusu $YERELPS oluşturuldu."
 mesaj bilgi "Yerel Sunucu Toplam Boyutu: $YPS_BOYUT"
 mesaj bilgi "Yerel sunucuyu ayarlar.conf dosyasına 127.0.0.1:8888 olarak giriniz."
