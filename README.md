@@ -11,7 +11,7 @@ Login yöneticisi:
 
 
 ```
-Milis Builder 2017.07
+Milis Builder 2017.08
 
 Genel Parametreler
 	-t | --temizle
@@ -23,6 +23,9 @@ Genel Parametreler
 	-i | --iso
 	Son aşamadır, dağıtımı iso formatına çevirir. Öncesinde --onhazirlik ile gerekli temel paketlerin
 	kurulmuş olması gerekmektedir.
+
+	-c | --chroot
+	Ön hazırlığı yapılmış dağıtım için elle müdahale imkanı tanır.
 
 	-y | --yardim
 	Bu yardım metnini görüntüler.

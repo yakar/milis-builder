@@ -35,7 +35,7 @@ if [ -z "$PAKET_SUNUCUSU" ];then	mesaj hata "PAKET_SUNUCUSU=\"\" ayarlar.conf do
 
 # gerekli paketlerin kontrolu ve yoksa kurulmasi
 if [ ! -d "/var/lib/pkg/DB/lzip" ]; then 		mps kur lzip;		fi
-if [ ! -d "/var/lib/pkg/DB/mksquashfs" ]; then	mps kur squashfs;	fi
+if [ ! -d "/var/lib/pkg/DB/squashfs" ]; then	mps kur squashfs;	fi
 if [ ! -d "/var/lib/pkg/DB/syslinux" ]; then	mps kur syslinux;	fi
 if [ ! -d "/var/lib/pkg/DB/cdrkit" ]; then		mps kur cdrkit;		fi
 
@@ -51,6 +51,8 @@ case "$1" in
 	-i|--iso)
 		. scripts/iso-olustur.sh
 		;;
+	-c|--chroot)
+		. scripts/chroot.sh
 		
 	# yps secenekleri
 	--yps-olustur)
