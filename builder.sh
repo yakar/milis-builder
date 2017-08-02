@@ -41,6 +41,7 @@ if [ ! -d "/var/lib/pkg/DB/cdrkit" ]; then		mps kur cdrkit;		fi
 
 
 case "$1" in
+	
 	# iso islemleri
 	-t|--temizle)
 		. scripts/temizle.sh
@@ -53,7 +54,8 @@ case "$1" in
 		;;
 	-c|--chroot)
 		. scripts/chroot.sh
-		
+		;;
+
 	# yps secenekleri
 	--yps-olustur)
 		. scripts/yps-olustur.sh
