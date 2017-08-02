@@ -53,10 +53,10 @@ if [ ! -d "$LFS/var/lib/pkg/DB/xorg" ]; then			chroot $LFS /bin/bash -c "mps kur
 
 
 # Desktop Environment kurulumu
-. scripts/de-$MASAUSTU.sh
+. $BUILDER_ROOT/scripts/de-$MASAUSTU.sh
 
 # girisci kurulum
-. scripts/de-login-$GIRISYONETICISI.sh
+. $BUILDER_ROOT/scripts/de-login-$GIRISYONETICISI.sh
 
 # hostname
 chroot $LFS /bin/bash -c "echo 'HOSTNAME=\"$HOSTNAME\"' > /etc/sysconfig/network"
