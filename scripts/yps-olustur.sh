@@ -33,6 +33,8 @@ mesaj bilgi "Paketler indiriliyor.."
 wget -r --no-parent http://$UZAK_PAKET_SUNUCUSU -P $YERELPS
 mv $UZAK_PAKET_SUNUCUSU/*.lz $YERELPS
 rm -rf $UZAK_PAKET_SUNUCUSU
+
+mesaj bilgi "Paket veritabanı oluşturuluyor, lütfen bekleyiniz.."
 pkvt_olustur
 
 YPS_BOYUT=`du -h $YERELPS | awk '{print $1}'`
