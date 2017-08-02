@@ -35,6 +35,9 @@ Yerel Paket Sistemi:
 	--yps-durdur
 	Başlatılan Yerel Paket Sistemi (--yps-baslat) durdurulacaktır.
 
+	--yps-guncelle
+	Yerel Paket Sistemi ile Miilis Paket Sunucusunu eşitler.
+
 	--yps-kontrol
-	Yerel Paket Sunucusu yolu, veritabanı kontrolü, çalışıp çalışmadığı gibi kontrolleri sağlar.
+	Yerel Paket Sistemi yolu, veritabanı kontrolü, çalışıp çalışmadığı gibi kontrolleri sağlar.
 	"

@@ -41,7 +41,7 @@ if [ ! -d "/var/lib/pkg/DB/cdrkit" ]; then		mps kur cdrkit;		fi
 
 
 case "$1" in
-	
+
 	# iso islemleri
 	-t|--temizle)
 		. scripts/temizle.sh
@@ -65,6 +65,9 @@ case "$1" in
 		;;
 	--yps-durdur)
 		fuser -k 8888/tcp
+		;;
+	--yps-guncelle)
+		. scripts/yps-guncelle.sh
 		;;
 	--yps-kontrol)
 		. scripts/yps-kontrol.sh
