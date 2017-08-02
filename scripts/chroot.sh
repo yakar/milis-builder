@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [ ! -d "$LFS" ];
+if [ ! -d "$LFS" ]; then
 	mesaj hata "$LFS klasörü bulunamadı!"
 else
 
