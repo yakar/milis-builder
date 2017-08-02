@@ -45,10 +45,14 @@ sed -i "49s/milis/$ROOT_PAROLASI/g" $LFS/etc/init.d/sysklogd
 
 # LiveOS ayarları
 mesaj bilgi "LiveOS ayarları yapılıyor..."
-# onceki iso olusturmada hata alınırsa temp-root/ ve tmp/ kalmış olabilir
-if [ -d temp-root ]; then	umount -l temp-root; rm -rf temp-root; fi
-if [ -d tmp ]; then			rm -rf tmp; fi
+# varsa temp-root/ ve tmp/ umount edil silelim
+if [ -d temp-root ]; then
+    mountpoint -q temp-root && umount -l temp-root
+    rm -rf temp-root
+fi
+[[ -d tmp ]] && rm -rf tmp
 
+#
 mkdir -p tmp/LiveOS
 dd if=/dev/zero of=tmp/LiveOS/ext3fs.img bs=1MB count=16384
 mke2fs -t ext4 -L $ISO_ETIKET -F tmp/LiveOS/ext3fs.img
