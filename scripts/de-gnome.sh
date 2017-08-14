@@ -7,6 +7,9 @@ mesaj bilgi "$MASAUSTU gerekli uygulamalar kuruluyor.."
 cp -r $BUILDER_ROOT/$OZELLESTIRME/$MASAUSTU/apps $LFS/tmp
 chroot $LFS /bin/bash -c "mps -kurul /tmp/apps"
 
+mesaj bilgi "Gnome teması yapılandırılıyor"
+chroot $LFS /bin/bash -c "gnome_masaustu_yapilandir"
+
 # default config
 #cp -r $BUILDER_ROOT/$OZELLESTIRME/$MASAUSTU/.config $LFS/root/
 
