@@ -11,8 +11,7 @@ fi
 UZAK_PAKET_SUNUCUSU="paketler.milislinux.org"
 
 # ana sunucu ile yerel sunucu paket kontrolu ve eski paketlerin temizlenmesi
-mesaj uyari "Tüm paketler sunucudakiler ile karşılaştırılacak ve paket veritabanı yeniden oluşturulacak."
-mesaj uyari "İşlem yaklaşık 5dk sürecek, devam edilsin mi? [e/h]"
+mesaj uyari "Tüm paketler sunucudakiler ile karşılaştırılacak ve paket veritabanı yeniden oluşturulacak. [e/h]"
 read -p " " cevap
 
 if [ $cevap == 'e' ]; then
@@ -38,7 +37,7 @@ if [ $cevap == 'e' ]; then
 	done
 
 	# tmp klasorunu, eski paket.vt sil ve yeniden olustur..
-	mesaj bilgi "Güncel paketler taşındı, paket veritabanı yeniden oluşturuluyor (~5dk)."
+	mesaj bilgi "Güncel paketler taşındı, paket veritabanı yeniden oluşturuluyor (~3dk)."
 	rm -rf "$YERELPS/tmp"
 	rm -f $YERELPS/paket.vt
 	cd $YERELPS
