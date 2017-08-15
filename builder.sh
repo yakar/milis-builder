@@ -9,7 +9,7 @@ BUILDER_ROOT=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 
 # ayarlar
 . ayarlar.conf
-
+. mps.conf
 
 # gerekli fonksiyonlar
 . scripts/mesaj.sh
@@ -31,7 +31,7 @@ if [ -z "$UEFI" ];then 				mesaj hata "UEFI=\"\" ayarlar.conf dosyasında tanım
 if [ -z "$OZELLESTIRME" ];then 		mesaj hata "OZELLESTIRME=\"\" ayarlar.conf dosyasında tanımlanmamış!"; exit 1; fi
 if [ ! -d "$OZELLESTIRME" ];then 	mesaj hata "ayarlar.conf da belirtilen '$OZELLESTIRME' klasörü bulunamadı!"; exit 1; fi
 if [ -z "$LFS" ];then 				mesaj hata "LFS=\"\" ayarlar.conf dosyasında tanımlanmamış!"; exit 1; fi
-if [ -z "$PAKET_SUNUCUSU" ];then	mesaj hata "PAKET_SUNUCUSU=\"\" ayarlar.conf dosyasında tanımlanmamış!"; exit 1; fi
+if [ -z "$sunucular" ];then			mesaj hata "sunucular=\"\" mps.conf dosyasında tanımlanmamış!"; exit 1; fi
 
 # gerekli paketlerin kontrolu ve yoksa kurulmasi
 if [ ! -d "/var/lib/pkg/DB/lzip" ]; then 		mps kur lzip;		fi
