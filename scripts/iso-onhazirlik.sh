@@ -24,15 +24,12 @@ _mount
 
 
 # bashrc kopyalayalim
-cp /sources/milis.git/ayarlar/bashrc_chroot "$LFS"/etc/bashrc
+cp -r /sources/milis.git/ayarlar/bashrc_chroot "$LFS"/etc/bashrc
 
 
-# chroot
-# TEST: chroot "$LFS" /usr/bin/env -i HOME=/root TERM="$TERM" PS1='\u:\w\$ ' /bin/bash --login
-# lfs dizini oluşturup ortama girdikten sonra bu betiği çalıştırabilirsiniz,bütün ortam içi işlemler yapılacaktır.
+# mps.conf ve guncelle
 mesaj bilgi "paket sistemi guncellemesi";
-chroot $LFS /bin/bash -c "mps guncelle"
-chroot $LFS /bin/bash -c "mps sun http://$PAKET_SUNUCUSU"
+cp -r $BUILDER_ROOT/mps.conf $LFS/etc/
 chroot $LFS /bin/bash -c "mps guncelle"
 
 
@@ -53,10 +50,10 @@ if [ ! -d "$LFS/var/lib/pkg/DB/xorg" ]; then			chroot $LFS /bin/bash -c "mps kur
 
 
 # Desktop Environment kurulumu
-. $BUILDER_ROOT/scripts/de-$MASAUSTU.sh
+[[ -f "$BUILDER_ROOT/scripts/de-$MASAUSTU.sh" ]] && . $BUILDER_ROOT/scripts/de-$MASAUSTU.sh
 
 # girisci kurulum
-. $BUILDER_ROOT/scripts/de-login-$GIRISYONETICISI.sh
+[[ -f "$BUILDER_ROOT/scripts/de-login-$GIRISYONETICISI.sh" ]] && . $BUILDER_ROOT/scripts/de-login-$GIRISYONETICISI.sh
 
 # hostname
 chroot $LFS /bin/bash -c "echo 'HOSTNAME=\"$HOSTNAME\"' > /etc/sysconfig/network"
