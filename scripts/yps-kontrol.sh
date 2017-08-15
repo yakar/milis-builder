@@ -12,9 +12,9 @@ elif [ ! -f "$YERELPS/paket.vt" ]; then
 	pkvt_olustur
 	mesaj bilgi "$YERELPS/paket.vt oluşturuldu."
 
-# ayarlar.conf kontrol
-elif [ $PAKET_SUNUCUSU != "127.0.0.1:8888" ]; then
-	mesaj hata "ayarlar.conf dosyasında PAKET_SUNUCUSU değerine 127.0.0.1:8888 girilmemiş!"
+# mps.conf kontrol
+elif [ ${sunucular[0]} != "127.0.0.1:8888/" ]; then
+	mesaj hata "mps.conf dosyasında sunucular değerine 127.0.0.1:8888/ girilmemiş!"
 
 else
 	mesaj bilgi "Herşey yolunda görünüyor.."
