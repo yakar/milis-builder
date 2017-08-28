@@ -1,3 +1,4 @@
+cryptsetup
 grub
 dmidecode
 hdparm
@@ -45,8 +46,12 @@ python-pip
 python3-yaml
 python-yaml
 python3-pythondialog
-komutan
+python3-qt5
+python3-parted
+python3-pytz
 numix-gtk-theme
+node
 mate-themes
 catfish
 netcat
+gksu

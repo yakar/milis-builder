@@ -4,16 +4,40 @@
 # Beta 2 / aydin@komutan.org
 set -e
 
-# builder mevcut dizini
-BUILDER_ROOT=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
-
-# ayarlar
-. ayarlar.conf
-. mps.conf
-
 # gerekli fonksiyonlar
 . scripts/mesaj.sh
 . scripts/mount-umount.sh
+
+# builder mevcut dizini
+BUILDER_ROOT=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+
+#özelleştirilmiş ayarlar için ayarlar dizinini oluşturulması-kullanıcı farklı ayarları burada barındıracak.
+mkdir -p $BUILDER_ROOT/ayarlar
+
+kullanici_ayar="$1"
+# ayarlar
+if [ ! "$1" ]; then
+	mesaj hata "ayardosyası gerek! $1"
+	exit 1
+fi
+
+if [ -f $kullanici_ayar ];then
+	. $kullanici_ayar
+else
+	mesaj hata "iso yapımı için bir ayar dosyası yolu bulunamadı."
+	. $BUILDER_ROOT/ayarlar.conf
+fi
+
+if [ -z "$MPSCONF" ];then 
+	. $BUILDER_ROOT/mps.conf
+else
+	if [ ! -f "$MPSCONF" ]; then 
+		mesaj hata "$MPSCONF yolu bulunamadı!"; 
+		exit 1;
+	else
+		. $MPSCONF
+	fi
+fi
 
 
 # yetki kontrol
@@ -39,23 +63,36 @@ if [ ! -d "/var/lib/pkg/DB/squashfs" ]; then	mps kur squashfs;	fi
 if [ ! -d "/var/lib/pkg/DB/syslinux" ]; then	mps kur syslinux;	fi
 if [ ! -d "/var/lib/pkg/DB/cdrkit" ]; then		mps kur cdrkit;		fi
 
+# ayarlar
+if [ ! "$1" ]; then
+	mesaj hata "ayardosyası gerek! $1"
+	exit 1
+fi
 
-case "$1" in
+# ayarlar
+if [ ! "$2" ]; then
+	mesaj hata "işlem parametresi gerek! Yardım için -y kullanabilirsiniz."
+	exit 1
+fi
+
+case "$2" in
 
 	# iso islemleri
-	-t|--temizle)
+	-t|--temizle|adim0)
 		. scripts/temizle.sh
 		;;
-	-o|--onhazirlik)
+	-o|--onhazirlik|adim1)
 		. scripts/iso-onhazirlik.sh
 		;;
-	-i|--iso)
+	-i|--iso|adim2)
 		. scripts/iso-olustur.sh
+		;;
+	-si|--sadece-iso)
+		. scripts/sadece-iso-olustur.sh
 		;;
 	-c|--chroot)
 		. scripts/chroot.sh
 		;;
-
 	# yps secenekleri
 	--yps-olustur)
 		. scripts/yps-olustur.sh

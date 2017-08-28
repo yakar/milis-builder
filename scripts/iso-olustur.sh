@@ -3,20 +3,20 @@
 mesaj bilgi "$DAGITIM için ISO hazırlanıyor..."
 #umount
 _umount
-
+cd $BUILDER_ROOT
 # son ayar yuklemeleri
 mesaj bilgi "ISO için ön ayarlar yapılıyor.."
-cd /sources/milis.git/
-cp -f rootfs/etc/bashrc $LFS/etc/bashrc
-cp -f rootfs/etc/profile $LFS/etc/profile
-cp -f ayarlar/mps.conf $LFS/etc/mps.conf
-cp -f rootfs/etc/rc.d/init.d/* $LFS/etc/rc.d/init.d/
+cp -f $LFS/sources/milis.git/rootfs/etc/bashrc $LFS/etc/bashrc
+cp -f $LFS/sources/milis.git/rootfs/etc/profile $LFS/etc/profile
+cp -f $LFS/sources/milis.git/ayarlar/mps.conf $LFS/etc/mps.conf
+cp -f $LFS/sources/milis.git/rootfs/etc/rc.d/init.d/* $LFS/etc/rc.d/init.d/
 
+mkdir -p iso_icerik
 rm -f iso_icerik/boot/kernel
 rm -f iso_icerik/boot/initramfs
 rm -rf iso_icerik/LiveOS
-cp $LFS/boot/kernel-* iso_icerik/boot/kernel
-cp $LFS/boot/initramfs* iso_icerik/boot/initramfs
+mv $LFS/boot/kernel-* iso_icerik/boot/kernel
+mv $LFS/boot/initramfs* iso_icerik/boot/initramfs
 
 
 # grub
@@ -35,7 +35,7 @@ cp -r $BUILDER_ROOT/$OZELLESTIRME/syslinux/arkaplan.png iso_icerik/boot/isolinux
 
 # kurulum.desktop dağıtım adı
 mesaj bilgi "Masaüstü kurulum kısayolu açıklaması düzenleniyor"
-sed -i "s/Milis Linux/$DAGITIM/g" $LFS/root/Desktop/kurulum.desktop
+#sed -i "s/Milis Linux/$DAGITIM/g" $LFS/root/Desktop/kurulum.desktop
 sed -i "s/Milis Linux/$DAGITIM/g" $LFS/root/Masaüstü/kurulum.desktop
 	
 # varsayılan root parolası
@@ -53,20 +53,25 @@ fi
 [[ -d tmp ]] && rm -rf tmp
 
 #
-mkdir -p tmp/LiveOS
-dd if=/dev/zero of=tmp/LiveOS/ext3fs.img bs=1MB count=16384
-mke2fs -t ext4 -L $ISO_ETIKET -F tmp/LiveOS/ext3fs.img
+mkdir -p tmp
+fallocate -l 16G tmp/rootfs.img
+mke2fs -t ext4 -L $ISO_ETIKET -F tmp/rootfs.img
 mkdir -p temp-root
-mount -o loop tmp/LiveOS/ext3fs.img temp-root
+mount -o loop tmp/rootfs.img temp-root
+mesaj bilgi "Chroot içerik dosya sistemi imajına kopyalanıyor..."
 cp -dpR $LFS/* temp-root/
+#rsync -a kur/ temp-root
 umount -l temp-root
 rm -rf temp-root 
 mkdir -p iso_icerik/LiveOS
+mesaj bilgi "Dosya sistemi imajı sıkıştırılıyor..."
 mksquashfs tmp iso_icerik/LiveOS/squashfs.img -comp xz -b 256K -Xbcj x86
 chmod 444 iso_icerik/LiveOS/squashfs.img
 rm -rf tmp
 
-
+#ek-güncellemelerin eklenmesi
+if [ -d $BUILDER_ROOT/iso_icerik/updates ]; then rm -rf iso_icerik/updates;fi
+cp -rf $BUILDER_ROOT/$OZELLESTIRME/$MASAUSTU/updates iso_icerik/
 # ISO oluştur 
 mesaj bilgi "ISO oluşturuluyor..."
 ISODOSYA=`echo $DAGITIM | tr '[A-Z]' '[a-z]' | tr ' ' '-'`-$VERSIYON-LIVE-`date +%Y%m%d%H%M`

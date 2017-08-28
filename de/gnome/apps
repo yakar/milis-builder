@@ -37,5 +37,8 @@ python-pip
 python3-yaml
 python-yaml
 python3-pythondialog
+python3-qt5
+python3-pytz
+python3-parted
 isodumper
 netcat

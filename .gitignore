@@ -1,1 +1,8 @@
+ayarlar/*
+*.iso
+iso_icerik/boot/kernel
+iso_icerik/boot/initrd
+iso_icerik/boot/initramfs
+iso_icerik/LiveOS/*.*
+iso_icerik/updates/*.*
 ~*
