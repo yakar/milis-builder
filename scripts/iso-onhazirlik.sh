@@ -47,10 +47,20 @@ if [ ! -d "$LFS/var/lib/pkg/DB/xorg" ]; then			chroot $LFS /bin/bash -c "mps kur
 chroot $LFS /bin/bash -c "mps -kuruld /root/talimatname/temel-ek/derleme.sira";  
 
 # Masaüstü ortamının kurulumu
-[[ -f "$BUILDER_ROOT/scripts/de-$MASAUSTU.sh" ]] && . $BUILDER_ROOT/scripts/de-$MASAUSTU.sh
+if [ -f "$BUILDER_ROOT/scripts/de-$MASAUSTU.sh" ];then
+	. $BUILDER_ROOT/scripts/de-$MASAUSTU.sh
+else
+	mesaj hata "de-$MASAUSTU.sh betik dosyası bulunamadı!";
+	exit 1
+fi
 
 # girisci kurulum
-[[ -f "$BUILDER_ROOT/scripts/de-login-$GIRISYONETICISI.sh" ]] && . $BUILDER_ROOT/scripts/de-login-$GIRISYONETICISI.sh
+if [ -f "$BUILDER_ROOT/scripts/de-login-$GIRISYONETICISI.sh" ];then
+	. $BUILDER_ROOT/scripts/de-login-$GIRISYONETICISI.sh
+else
+	mesaj hata "de-login-$GIRISYONETICISI.sh betik dosyası bulunamadı!";
+	exit 1
+fi
 
 # ekstra paketlerin kurulmasi
 for paket in $EXTRA_PAKETLER; do
@@ -75,7 +85,7 @@ chroot $LFS /bin/bash -c "rm -rf /depo/paketler/*"
 chroot $LFS /bin/bash -c "mps -tro"
 chroot $LFS /bin/bash -c "export LC_ALL='tr_TR.UTF-8'"
 chroot $LFS /bin/bash -c "export LANG='tr_TR.UTF-8'"
-chroot $LFS /bin/bash -c "xdg-user-dirs-update"
+chroot $LFS /bin/bash -c "[ -f /usr/bin/xdg-user-dirs-update ] && xdg-user-dirs-update"
 #chroot $LFS /bin/bash -c "if [ -f /usr/bin/lxdm ];then cp -rf /sources/milis.git/ayarlar/servisler/mbd/init.d/lxdm /etc/init.d/; fi"
 chroot $LFS /bin/bash -c "cp -rf /sources/milis.git/ayarlar/milbit/milbit.desktop /usr/share/applications/"
 chroot $LFS /bin/bash -c "mkdir -p /root/Masaüstü"

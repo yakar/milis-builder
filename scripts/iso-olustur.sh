@@ -15,9 +15,8 @@ mkdir -p iso_icerik
 rm -f iso_icerik/boot/kernel
 rm -f iso_icerik/boot/initramfs
 rm -rf iso_icerik/LiveOS
-cp $LFS/boot/kernel-$(ls $LFS/lib/modules/) iso_icerik/boot/
-mv $LFS/boot/kernel* iso_icerik/boot/kernel
-mv $LFS/boot/initramfs* iso_icerik/boot/initramfs
+cp -rf $LFS/boot/kernel-* iso_icerik/boot/kernel
+cp -rf $LFS/boot/initramfs* iso_icerik/boot/initramfs
 
 
 # grub
@@ -37,7 +36,7 @@ cp -r $BUILDER_ROOT/$OZELLESTIRME/syslinux/arkaplan.png iso_icerik/boot/isolinux
 # kurulum.desktop dağıtım adı
 mesaj bilgi "Masaüstü kurulum kısayolu açıklaması düzenleniyor"
 #sed -i "s/Milis Linux/$DAGITIM/g" $LFS/root/Desktop/kurulum.desktop
-sed -i "s/Milis Linux/$DAGITIM/g" $LFS/root/Masaüstü/kurulum.desktop
+[ -f $LFS/root/Masaüstü/kurulum.desktop ] && sed -i "s/Milis Linux/$DAGITIM/g" $LFS/root/Masaüstü/kurulum.desktop
 	
 # varsayılan root parolası
 mesaj bilgi "root varsayılan parolası değiştiriliyor"
