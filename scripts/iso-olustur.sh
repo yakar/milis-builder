@@ -15,7 +15,8 @@ mkdir -p iso_icerik
 rm -f iso_icerik/boot/kernel
 rm -f iso_icerik/boot/initramfs
 rm -rf iso_icerik/LiveOS
-mv $LFS/boot/kernel-* iso_icerik/boot/kernel
+cp $LFS/boot/kernel-$(ls $LFS/lib/modules/) iso_icerik/boot/
+mv $LFS/boot/kernel* iso_icerik/boot/kernel
 mv $LFS/boot/initramfs* iso_icerik/boot/initramfs
 
 
