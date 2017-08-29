@@ -85,6 +85,7 @@ chroot $LFS /bin/bash -c "cp -f /sources/milis.git/ayarlar/milis-kur.desktop /ro
 chroot $LFS /bin/bash -c "chmod +x /root/Masaüstü/*.desktop"
 chroot $LFS /bin/bash -c "rm -f /root/.gitconfig"
 chroot $LFS /bin/bash -c "tamir_touchpad"
+chroot $LFS /bin/bash -c "git_ssl_tamir"
 chroot $LFS /bin/bash -c "tamir_masaustu"
 
 mesaj bilgi "Ön Hazırlık başarıyla tamamlandı."
