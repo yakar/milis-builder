@@ -1,5 +1,3 @@
-xorg
-xorg-app
 xorg-font
 xorg-glu
 cryptsetup
@@ -12,7 +10,6 @@ xorriso
 gtk-engines
 gtk-engine-murrine
 feh
-galculator
 gvfs
 hexchat
 lsof
@@ -22,16 +19,15 @@ cdrkit
 bindutils
 scrot
 ntp
+htop
 syslinux
 networkmanager
-network-manager-applet
 file-roller
 xarchiver
 gparted
 sshfs-fuse
 alsa-utils
 alsa-plugins
-geeqie
 sysv-rc-conf
 rfkill
 dosfstools
@@ -47,9 +43,7 @@ python3-pythondialog
 python3-qt5
 python3-parted
 python3-pytz
-numix-gtk-theme
+xfe
 node
-mate-themes
-catfish
 netcat
 gksu
