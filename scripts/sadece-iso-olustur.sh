@@ -11,7 +11,7 @@ if [ -d $BUILDER_ROOT/iso_icerik/updates ]; then rm -rf iso_icerik/updates;fi
 cp -rf $BUILDER_ROOT/$OZELLESTIRME/$MASAUSTU/updates iso_icerik/
 # ISO oluştur 
 mesaj bilgi "ISO oluşturuluyor..."
-ISODOSYA=`echo $DAGITIM | tr '[A-Z]' '[a-z]' | tr ' ' '-'`-$VERSIYON-LIVE-`date +%Y%m%d%H%M`
+ISODOSYA=`echo $DAGITIM | tr '[A-Z]' '[a-z]' | tr ' ' '-'`-$VERSIYON-$MASAUSTU-`date +%Y%m%d%H%M`
 if [ $UEFI == "1" ]; then
 	# uefi
     cp $LFS/usr/lib/syslinux/isohdpfx.bin iso_icerik/boot/isolinux/isohdpfx.bin
