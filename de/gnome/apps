@@ -6,7 +6,6 @@ start-stop-daemon
 dejavu-ttf
 xorriso
 gtk-engines
-gtk-engine-murrine
 cups-filters
 gvfs
 gutenprint
@@ -18,7 +17,6 @@ bindutils
 scrot
 ntp
 syslinux
-opera-web-browser
 epiphany
 sshfs-fuse
 ffmpegthumbnailer
@@ -42,3 +40,4 @@ python3-pytz
 python3-parted
 isodumper
 netcat
+gnome-ekstra
