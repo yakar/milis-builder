@@ -20,6 +20,9 @@ Genel Parametreler
 	-c | --chroot
 	Ön hazırlığı yapılmış dağıtım için elle müdahale imkanı tanır.
 
+	-q | --qemu <iso> <ram kb>
+	Çıkarılan ISO dosyasının test edilmesini sağlar. Ram miktarı isteğe bağlı olarak belirtilebilir, belirtilmez ise 1024 Kb olarak değerlendirilecektir.
+
 	-y | --yardim
 	Bu yardım metnini görüntüler.
 

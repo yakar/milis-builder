@@ -11,9 +11,6 @@ set -e
 # builder mevcut dizini
 BUILDER_ROOT=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 
-#özelleştirilmiş ayarlar için ayarlar dizinini oluşturulması-kullanıcı farklı ayarları burada barındıracak.
-mkdir -p $BUILDER_ROOT/ayarlar
-
 kullanici_ayar="$1"
 # ayarlar
 if [ ! "$1" ]; then
@@ -25,11 +22,11 @@ if [ -f $kullanici_ayar ];then
 	. $kullanici_ayar
 else
 	mesaj hata "iso yapımı için bir ayar dosyası yolu bulunamadı."
-	. $BUILDER_ROOT/ayarlar.conf
+	. $BUILDER_ROOT/ayarlar/ayarlar.conf
 fi
 
 if [ -z "$MPSCONF" ];then 
-	. $BUILDER_ROOT/mps.conf
+	. $BUILDER_ROOT/ayarlar/mps.conf
 else
 	if [ ! -f "$MPSCONF" ]; then 
 		mesaj hata "$MPSCONF yolu bulunamadı!"; 
@@ -93,6 +90,12 @@ case "$2" in
 	-c|--chroot)
 		. scripts/chroot.sh
 		;;
+
+	# qemu
+	-q|--qemu)
+		. scripts/qemu.sh
+		;;
+
 	# yps secenekleri
 	--yps-olustur)
 		. scripts/yps-olustur.sh
@@ -116,6 +119,3 @@ case "$2" in
 		mesaj hata "Lütfen parametre giriniz. Yardım için -y kullanabilirsiniz."
 esac
 exit
-
-# ADIM 8: qemu ile iso test
-./qemu.sh milis_live.iso
