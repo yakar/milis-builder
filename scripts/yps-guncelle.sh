@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # YPS olusturulmadi ise islemi bitir.
-if [ ! -d "YERELPS" ]]; then
+if [ ! -d "$YERELPS" ]; then
 	mesaj bilgi "$YERELPS oluşturulmamış. Lütfen --yps-olustur ile oluşturunuz."
 	exit 1
 fi
