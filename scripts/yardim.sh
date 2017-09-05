@@ -4,7 +4,7 @@
 if [ -z $1 ]; then mesaj hata "Parametre belirtilmelidir."; fi
 
 mesaj yesil "
-Milis Builder 2017.08
+Milis Builder 2017.09
 
 Genel Parametreler
 	-t | --temizle
