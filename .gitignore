@@ -2,6 +2,7 @@ git-guncelle
 *.iso
 ayarlar/*.conf
 !ayarlar/ayarlar.conf
+!ayarlar/mps.conf
 iso_icerik/boot/kernel
 iso_icerik/boot/initrd
 iso_icerik/boot/initramfs
