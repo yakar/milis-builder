@@ -6,9 +6,9 @@ _umount
 
 
 #ek-güncellemelerin eklenmesi
-#ek-güncellemelerin eklenmesi
 if [ -d $BUILDER_ROOT/iso_icerik/updates ]; then rm -rf iso_icerik/updates;fi
 cp -rf $BUILDER_ROOT/$OZELLESTIRME/$MASAUSTU/updates iso_icerik/
+
 # ISO oluştur 
 mesaj bilgi "ISO oluşturuluyor..."
 ISODOSYA=`echo $DAGITIM | tr '[A-Z]' '[a-z]' | tr ' ' '-'`-$VERSIYON-$MASAUSTU-`date +%Y%m%d%H%M`
