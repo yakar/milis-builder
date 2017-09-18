@@ -8,17 +8,20 @@ _umount
 if [ -d $BUILDER_ROOT/iso_icerik/updates ]; then rm -rf iso_icerik/updates;fi
 cp -rf $BUILDER_ROOT/$OZELLESTIRME/$MASAUSTU/updates iso_icerik/
 
-mkdir -p $BUILDER_ROOT/iso_icerik/updates/opt/
 
-#Milis-Yukleyicinin eklenmesi
-if [ -d $YUKLEYICI_KONUM ]; then 
-	cd $YUKLEYICI_KONUM
-	git pull
-	cd -
-else
-	git clone $YUKLEYICI_GITREPO $YUKLEYICI_KONUM
+# Milis yükleyici kurulu değilse gitrepodan çekilecek.
+if [ ! -d $LFS/var/lib/pkg/DB/milis-yukleyici ];then
+	mkdir -p $BUILDER_ROOT/iso_icerik/updates/opt/
+	#Milis-Yukleyicinin eklenmesi
+	if [ -d $YUKLEYICI_KONUM ]; then 
+		cd $YUKLEYICI_KONUM
+		git pull
+		cd -
+	else
+		git clone $YUKLEYICI_GITREPO $YUKLEYICI_KONUM
+	fi
+	cp -rf $YUKLEYICI_KONUM  $BUILDER_ROOT/iso_icerik/updates/opt/
 fi
-cp -rf $YUKLEYICI_KONUM  $BUILDER_ROOT/iso_icerik/updates/opt/
 
 # ISO oluştur 
 mesaj bilgi "ISO oluşturuluyor..."
