@@ -69,9 +69,25 @@ mksquashfs tmp iso_icerik/LiveOS/squashfs.img -comp xz -b 256K -Xbcj x86
 chmod 444 iso_icerik/LiveOS/squashfs.img
 rm -rf tmp
 
+
 #ek-güncellemelerin eklenmesi
 if [ -d $BUILDER_ROOT/iso_icerik/updates ]; then rm -rf iso_icerik/updates;fi
 cp -rf $BUILDER_ROOT/$OZELLESTIRME/$MASAUSTU/updates iso_icerik/
+
+mkdir -p $BUILDER_ROOT/iso_icerik/updates/opt/
+
+#Milis-Yukleyicinin eklenmesi
+if [ -d $YUKLEYICI_KONUM ]; then 
+	cd $YUKLEYICI_KONUM
+	git pull
+	cd -
+else
+	git clone $YUKLEYICI_GITREPO $YUKLEYICI_KONUM
+fi
+cp -rf $YUKLEYICI_KONUM  $BUILDER_ROOT/iso_icerik/updates/opt/
+
+
+
 # ISO oluştur 
 mesaj bilgi "ISO oluşturuluyor..."
 ISODOSYA=`echo $DAGITIM | tr '[A-Z]' '[a-z]' | tr ' ' '-'`-$VERSIYON-$MASAUSTU-`date +%Y%m%d%H%M`
