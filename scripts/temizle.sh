@@ -39,6 +39,10 @@ while true; do
 				rm -rf iso_icerik/updates
 				rm -f iso_icerik/boot/initramfs
 				rm -f iso_icerik/boot/kernel
+
+               			if [ -f iso_icerik/efiboot.img ]; then
+				        rm -rf iso_icerik/efiboot.img
+               			fi
 				mesaj bilgi "iso_icerik/LiveOS klasörü silindi."
 			fi
 			exit 1
