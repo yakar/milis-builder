@@ -23,6 +23,19 @@ if [ ! -d $LFS/var/lib/pkg/DB/milis-yukleyici ];then
 	cp -rf $YUKLEYICI_KONUM  $BUILDER_ROOT/iso_icerik/updates/opt/
 fi
 
+### UEFI bolumu
+if [ $UEFI == "1" ]; then
+    mkdir -p $BUILDER_ROOT/iso_icerik/efi_tmp
+    dd if=/dev/zero bs=1M count=40 of=$BUILDER_ROOT/iso_icerik/efiboot.img
+    mkfs.vfat -n Milis_EFI $BUILDER_ROOT/iso_icerik/efiboot.img 
+    mount -o loop $BUILDER_ROOT/iso_icerik/efiboot.img $BUILDER_ROOT/iso_icerik/efi_tmp
+    cp -rf $BUILDER_ROOT/iso_icerik/boot/kernel $BUILDER_ROOT/iso_icerik/efi_tmp/
+    cp -rf $BUILDER_ROOT/iso_icerik/boot/initramfs $BUILDER_ROOT/iso_icerik/efi_tmp/
+    cp -rf $BUILDER_ROOT/efi/* $BUILDER_ROOT/iso_icerik/efi_tmp/
+    umount $BUILDER_ROOT/iso_icerik/efi_tmp 
+    rm -rf $BUILDER_ROOT/iso_icerik/efi_tmp
+fi
+
 # ISO oluştur 
 mesaj bilgi "ISO oluşturuluyor..."
 ISODOSYA=`echo $DAGITIM | tr '[A-Z]' '[a-z]' | tr ' ' '-'`-$VERSIYON-$MASAUSTU-`date +%Y%m%d%H%M`
@@ -37,7 +50,7 @@ if [ $UEFI == "1" ]; then
         -eltorito-boot boot/isolinux/isolinux.bin \
         -eltorito-catalog boot/isolinux/isolinux.cat \
         -no-emul-boot -boot-load-size 4 -boot-info-table \
-        -eltorito-alt-boot -e boot/grub/efiboot.img -isohybrid-gpt-basdat -no-emul-boot \
+        -eltorito-alt-boot -e efiboot.img -isohybrid-gpt-basdat -no-emul-boot \
         -isohybrid-mbr iso_icerik/boot/isolinux/isohdpfx.bin \
         -output "$ISODOSYA.iso" iso_icerik || echo "ISO imaj olusturalamadı";exit 1
 
