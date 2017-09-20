@@ -35,6 +35,7 @@ chroot $LFS /bin/bash -c "mps -GG && mps guncelle && mps -G"
 
 
 mesaj bilgi "linux-firmware, kernel, dracut, xorg kurulumu";
+if [ -d "$LFS/root/bin/dracut" ]; then	chroot $LFS /bin/bash -c "rm -rf /root/bin/dracut"; fi
 if [ ! -d "$LFS/var/lib/pkg/DB/linux-firmware" ]; then	chroot $LFS /bin/bash -c "mps kur linux-firmware"; fi
 if [ ! -d "$LFS/var/lib/pkg/DB/linux-firmware" ]; then	exit 1; fi
 if [ ! -d "$LFS/var/lib/pkg/DB/kernel" ]; then			chroot $LFS /bin/bash -c "mps kur kernel"; fi
