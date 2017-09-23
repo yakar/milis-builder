@@ -43,7 +43,8 @@ if [ ! -d "$LFS/var/lib/pkg/DB/kernel" ]; then	exit 1; fi
 if [ ! -f "$LFS/usr/bin/dracut" ]; then					rm -rf $LFS/usr/bin/dracut; fi # dracut dizin ise sil..
 if [ ! -d "$LFS/var/lib/pkg/DB/dracut" ]; then			chroot $LFS /bin/bash -c "mps kur dracut || true"; fi
 if [ ! -d "$LFS/var/lib/pkg/DB/xorg" ]; then			chroot $LFS /bin/bash -c "mps kur xorg"; fi
-if [ ! -d "$LFS/var/lib/pkg/DB/xf86-video-openchrome" ]; then			chroot $LFS /bin/bash -c "mps kur xf86-video-openchrome"; fi
+if [ ! -d "$LFS/var/lib/pkg/DB/xf86-video-openchrome" ]; then chroot $LFS /bin/bash -c "mps kur xf86-video-openchrome"; fi
+if [ ! -d "$LFS/var/lib/pkg/DB/cryptsetup" ]; then chroot $LFS /bin/bash -c "mps kur cryptsetup"; fi
 
 #temel-ek uygulamaların kurulması
 chroot $LFS /bin/bash -c "mps -kuruld /root/talimatname/temel-ek/derleme.sira";  
