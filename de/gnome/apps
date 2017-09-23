@@ -7,6 +7,7 @@ dejavu-ttf
 xorriso
 gtk-engines
 cups-filters
+libpcap
 gvfs
 gutenprint
 hexchat

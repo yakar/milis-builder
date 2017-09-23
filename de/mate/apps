@@ -8,6 +8,7 @@ xorriso
 gtk-engines
 gtk-engine-murrine
 cups-filters
+libpcap
 geany
 gvfs
 gksu
