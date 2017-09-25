@@ -46,6 +46,16 @@ if [ ! -d "$LFS/var/lib/pkg/DB/xorg" ]; then			chroot $LFS /bin/bash -c "mps kur
 if [ ! -d "$LFS/var/lib/pkg/DB/xf86-video-openchrome" ]; then chroot $LFS /bin/bash -c "mps kur xf86-video-openchrome"; fi
 if [ ! -d "$LFS/var/lib/pkg/DB/cryptsetup" ]; then chroot $LFS /bin/bash -c "mps kur cryptsetup"; fi
 
+
+TEMEL_EK_PAKETLER=(git mdadm btrfs-progs reiserfsprogs xfsprogs libtirpc rpcbind nfs-utils jfsutils lsb-release)
+mesaj bilgi "temel-ek paketlerin kurulmasi";
+
+for tepaket in $TEMEL_EK_PAKETLER; do
+	if [ ! -d "$LFS/var/lib/pkg/DB/$tepaket" ]; then
+		chroot $LFS /bin/bash -c "mps kur $tepaket"
+	fi
+done
+
 #temel-ek uygulamaların kurulması
 chroot $LFS /bin/bash -c "mps -kuruld /root/talimatname/temel-ek/derleme.sira";  
 
