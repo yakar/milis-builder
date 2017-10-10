@@ -40,8 +40,8 @@ mesaj bilgi "Masaüstü kurulum kısayolu açıklaması düzenleniyor"
 #sed -i "s/Milis Linux/$DAGITIM/g" $LFS/root/Desktop/kurulum.desktop
 [ -f $LFS/root/Masaüstü/kurulum.desktop ] && sed -i "s/Milis Linux/$DAGITIM/g" $LFS/root/Masaüstü/kurulum.desktop
 [ -f $LFS/home/atilla/Masaüstü/kurulum.desktop ] && sed -i "s/Milis Linux/$DAGITIM/g" $LFS/home/atillla/Masaüstü/kurulum.desktop
-[ -f $LFS/home/atilla/Masaüstü/kurulum.desktop ] && chmod 755 $LFS/home/atillla/Masaüstü/kurulum.desktop
 
+	
 # varsayılan root parolası
 mesaj bilgi "root varsayılan parolası değiştiriliyor"
 sed -i "49s/milis/$ROOT_PAROLASI/g" $LFS/etc/init.d/sysklogd
@@ -66,7 +66,7 @@ mesaj bilgi "Chroot içerik dosya sistemi imajına kopyalanıyor..."
 cp -dpR $LFS/* temp-root/
 #rsync -a kur/ temp-root
 umount -l temp-root
-rm -rf temp-root
+rm -rf temp-root 
 mkdir -p iso_icerik/LiveOS
 mesaj bilgi "Dosya sistemi imajı sıkıştırılıyor..."
 mksquashfs tmp iso_icerik/LiveOS/squashfs.img -comp xz -b 256K -Xbcj x86
@@ -78,12 +78,15 @@ rm -rf tmp
 if [ -d $BUILDER_ROOT/iso_icerik/updates ]; then rm -rf iso_icerik/updates;fi
 cp -rf $BUILDER_ROOT/$OZELLESTIRME/$MASAUSTU/updates iso_icerik/
 
+# iso için zaman ayarlı sürüm no belirlemek.
+zaman_surumu=`date +%Y%m%d%H%M`
+milis_surum_no=`echo $DAGITIM | tr '[A-Z]' '[a-z]' | tr ' ' '-'`-$VERSIYON-$MASAUSTU-$zaman_surumu
 
 # Milis yükleyici kurulu değilse gitrepodan çekilecek.
 if [ ! -d $LFS/var/lib/pkg/DB/milis-yukleyici ];then
 	mkdir -p $BUILDER_ROOT/iso_icerik/updates/opt/
 	#Milis-Yukleyicinin eklenmesi
-	if [ -d $YUKLEYICI_KONUM ]; then
+	if [ -d $YUKLEYICI_KONUM ]; then 
 		cd $YUKLEYICI_KONUM
 		git pull
 		cd -
@@ -91,24 +94,27 @@ if [ ! -d $LFS/var/lib/pkg/DB/milis-yukleyici ];then
 		git clone $YUKLEYICI_GITREPO $YUKLEYICI_KONUM
 	fi
 	cp -rf $YUKLEYICI_KONUM  $BUILDER_ROOT/iso_icerik/updates/opt/
+	[ -d $LFS/home/atillla/Masaüstü ] && chmod 755 $LFS/home/atillla/Masaüstü/*.desktop
+	[ -d $LFS/home/atillla/Desktop ] && chmod 755 $LFS/home/atillla/Desktop/*.desktop
+	echo $milis_surum_no > $BUILDER_ROOT/iso_icerik/updates/etc/milis-surum
 fi
 
 ### UEFI bolumu
 if [ $UEFI == "1" ]; then
     mkdir -p $BUILDER_ROOT/iso_icerik/efi_tmp
     dd if=/dev/zero bs=1M count=40 of=$BUILDER_ROOT/iso_icerik/efiboot.img
-    mkfs.vfat -n Milis_EFI $BUILDER_ROOT/iso_icerik/efiboot.img
+    mkfs.vfat -n Milis_EFI $BUILDER_ROOT/iso_icerik/efiboot.img 
     mount -o loop $BUILDER_ROOT/iso_icerik/efiboot.img $BUILDER_ROOT/iso_icerik/efi_tmp
     cp -rf $BUILDER_ROOT/iso_icerik/boot/kernel $BUILDER_ROOT/iso_icerik/efi_tmp/
     cp -rf $BUILDER_ROOT/iso_icerik/boot/initramfs $BUILDER_ROOT/iso_icerik/efi_tmp/
     cp -rf $BUILDER_ROOT/efi/* $BUILDER_ROOT/iso_icerik/efi_tmp/
-    umount $BUILDER_ROOT/iso_icerik/efi_tmp
+    umount $BUILDER_ROOT/iso_icerik/efi_tmp 
     rm -rf $BUILDER_ROOT/iso_icerik/efi_tmp
 fi
 
-# ISO oluştur
+# ISO oluştur 
 mesaj bilgi "ISO oluşturuluyor..."
-ISODOSYA=`echo $DAGITIM | tr '[A-Z]' '[a-z]' | tr ' ' '-'`-$VERSIYON-$MASAUSTU-`date +%Y%m%d%H%M`
+ISODOSYA=$milis_surum_no
 if [ $UEFI == "1" ]; then
 	# uefi
     cp $LFS/usr/lib/syslinux/isohdpfx.bin iso_icerik/boot/isolinux/isohdpfx.bin
