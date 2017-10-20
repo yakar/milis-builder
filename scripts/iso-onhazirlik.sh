@@ -1,6 +1,6 @@
 #!/bin/bash
 
-bootstrap_url="http://milis.gungre.ch/iso/milis-bootstrap-enson.sfs"
+bootstrap_url="http://kaynaklar.milislinux.org/iso/milis-bootstrap-enson.sfs"
 
 # sfs dosyasının indirilmesi ve açılması
 mesaj bilgi "milis-bootstrap indir ve aç";
@@ -16,7 +16,7 @@ fi
 
 
 # dns
-echo 'nameserver 8.8.8.8' > $LFS/etc/resolv.conf 
+echo 'nameserver 8.8.8.8' > $LFS/etc/resolv.conf
 
 
 # unmount ve mount islemleri
