@@ -16,7 +16,7 @@ fi
 
 
 # dns
-echo 'nameserver 8.8.8.8' > $LFS/etc/resolv.conf 
+echo 'nameserver 8.8.8.8' > $LFS/etc/resolv.conf
 
 
 # unmount ve mount islemleri
