@@ -47,14 +47,22 @@ if [ ! -d "$LFS/var/lib/pkg/DB/xf86-video-openchrome" ]; then chroot $LFS /bin/b
 if [ ! -d "$LFS/var/lib/pkg/DB/cryptsetup" ]; then chroot $LFS /bin/bash -c "mps kur cryptsetup"; fi
 
 #temel-ek uygulamaların kurulması
-TEMEL_EK_PAKETLER=(git mdadm btrfs-progs reiserfsprogs xfsprogs libtirpc rpcbind nfs-utils jfsutils lsb-release)
-mesaj bilgi "temel-ek paketlerin kurulmasi";
+TEMEL_EK_PAKETLER=()
+mesaj bilgi "Her masaüstü içn gerekli paketlerin kurulmasi";
 
-for tepaket in $TEMEL_EK_PAKETLER; do
+for tepaket in $(cat $BUILDER_ROOT/$OZELLESTIRME/uygulamalar); do
 	if [ ! -d "$LFS/var/lib/pkg/DB/$tepaket" ]; then
 		chroot $LFS /bin/bash -c "mps kur $tepaket"
 	fi
 done
+
+
+for gerekli in $(cat $BUILDER_ROOT/$OZELLESTIRME/$MASAUSTU/apps); do
+	if [ ! -d "$LFS/var/lib/pkg/DB/$gerekli" ]; then chroot $LFS /bin/bash -c "mps kur $gerekli"; fi
+	if [ ! -d "$LFS/var/lib/pkg/DB/$gerekli" ]; then mesaj hata "$gerekli paketi kurulamadı!";exit 1; fi
+done
+
+
 
 # Masaüstü ortamının kurulumu
 if [ -f "$BUILDER_ROOT/scripts/de-$MASAUSTU.sh" ];then
