@@ -64,11 +64,13 @@ else
 fi
 
 ISOBOYUT=$(du -sbh $ISODOSYA.iso | awk '{print $1}')
+HASH256=$(sha256sum $ISODOSYA.iso)
 ISOYOLU=`pwd`/$ISODOSYA.iso
 mv $ISOYOLU /mnt/
 mesaj yesil "
 	*********************************************************
 	* ISO olusturuldu..
 	* /mnt/$ISODOSYA.iso ($ISOBOYUT)
+	* sha256sum ($HASH256)
 	*********************************************************
 "
