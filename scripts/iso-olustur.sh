@@ -38,7 +38,9 @@ cp -r $BUILDER_ROOT/$OZELLESTIRME/syslinux/arkaplan.png iso_icerik/boot/isolinux
 # kurulum.desktop dağıtım adı
 mesaj bilgi "Masaüstü kurulum kısayolu açıklaması düzenleniyor"
 [ -f $LFS/root/Masaüstü/kurulum.desktop ] && sed -i "s/Milis Linux/$DAGITIM/g" $LFS/root/Masaüstü/kurulum.desktop
+[ -f $LFS/root/Desktop/kurulum.desktop ] && sed -i "s/Milis Linux/$DAGITIM/g" $LFS/root/Desktop/kurulum.desktop
 [ -f $LFS/home/atilla/Desktop/kurulum.desktop ] && sed -i "s/Milis Linux/$DAGITIM/g" $LFS/home/atillla/Desktop/kurulum.desktop
+[ -f $LFS/home/atilla/Masaüstü/kurulum.desktop ] && sed -i "s/Milis Linux/$DAGITIM/g" $LFS/home/atillla/Masaüstü/kurulum.desktop
 
 	
 # varsayılan root parolası
