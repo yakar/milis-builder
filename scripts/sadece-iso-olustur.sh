@@ -23,6 +23,10 @@ if [ ! -d $LFS/var/lib/pkg/DB/milis-yukleyici ];then
 	cp -rf $YUKLEYICI_KONUM  $BUILDER_ROOT/iso_icerik/updates/opt/
 fi
 
+#updates dizini squashfs biçimine getirilmesi
+#mksquashfs iso_icerik/updates iso_icerik/updates.sfs -comp xz
+#rm -rf iso_icerik/updates 
+
 ### UEFI bolumu
 if [ $UEFI == "1" ]; then
     mkdir -p $BUILDER_ROOT/iso_icerik/efi_tmp

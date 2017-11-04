@@ -1,5 +1,5 @@
 favorites=exo-terminal-emulator.desktop,exo-file-manager.desktop,exo-mail-reader.desktop,exo-web-browser.desktop
-recent=vlc.desktop,qupzilla.desktop,midori-private.desktop,midori.desktop,lxtask.desktop,hexchat.desktop,pavucontrol.desktop,xfce4-mixer.desktop,nicotine.desktop,filezilla.desktop
+recent=filezilla.desktop,notepadqq.desktop,hexchat.desktop,vlc.desktop,supertuxkart.desktop,libreoffice-math.desktop,lxtask.desktop,libreoffice-calc.desktop,milislinux-saat.desktop,qupzilla.desktop
 button-title=Uygulamalar
 button-icon=/root/ayarlar/milislogo.png
 button-single-row=false

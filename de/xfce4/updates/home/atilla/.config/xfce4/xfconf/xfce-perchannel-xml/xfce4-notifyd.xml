@@ -3,15 +3,8 @@
 <channel name="xfce4-notifyd" version="1.0">
   <property name="applications" type="empty">
     <property name="known_applications" type="array">
-      <value type="string" value="App Name"/>
-      <value type="string" value="Bildirim"/>
-      <value type="string" value="Electron"/>
       <value type="string" value="Firefox"/>
       <value type="string" value="hello"/>
-      <value type="string" value="Hello world"/>
-      <value type="string" value="hello.world"/>
-      <value type="string" value="Mps Güncelleme"/>
-      <value type="string" value="notify-send"/>
       <value type="string" value="qupzilla"/>
       <value type="string" value="Thunar"/>
       <value type="string" value="Xfce volume daemon"/>
