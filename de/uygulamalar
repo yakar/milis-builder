@@ -39,6 +39,7 @@ os-prober
 netcat
 gksu
 xdg-user-dirs
+moreutils
 gtkdialog
 python-pip
 python3-yaml
