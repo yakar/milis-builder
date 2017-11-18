@@ -95,7 +95,10 @@ chroot $LFS /bin/bash -c "echo 'MANAGER=\"networkmanager\"' >> /etc/sysconfig/ne
 # baslatici olustur
 mesaj bilgi "diğer ayarlar ve yapılandırmalar";
 chroot $LFS /bin/bash -c "rm -f /boot/initramfs"
-chroot $LFS /bin/bash -c "dracut-guncelle"
+chroot $LFS /bin/bash -c "dracut_guncelle"
+#plymouth tema ayarlanması
+[ -d $BUILDER_ROOT/$OZELLESTIRME/plymouth/$PLYMOUTH_TEMA ] && cp -rf $BUILDER_ROOT/$OZELLESTIRME/plymouth/$PLYMOUTH_TEMA   $LFS/usr/share/plymouth/themes/
+chroot $LFS /bin/bash -c "plymouth-set-default-theme $PLYMOUTH_TEMA"
 chroot $LFS /bin/bash -c "dracut -N --force --xz --add 'dmsquash-live pollcdrom crypt' --omit systemd /boot/initramfs `ls /lib/modules`"
 chroot $LFS /bin/bash -c "if [ -f /var/lib/pkg/tarihce/temel-pkvt.tar.lz ]; then mv /var/lib/pkg/tarihce/temel-pkvt.tar.lz /var/lib/pkg/tarihce/temel2-pkvt.tar.lz; fi"
 chroot $LFS /bin/bash -c "rm -rf /tmp/*"

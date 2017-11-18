@@ -25,9 +25,11 @@ echo "DISTRIB_RELEASE=\"$VERSIYON\"" >> $LFS/etc/lsb-release
 echo "DISTRIB_DESCRIPTION=\"$DAGITIM $KODADI $VERSIYON\"" >> $LFS/etc/lsb-release
 echo "DISTRIB_CODENAME=\"$KODADI\"" >> $LFS/etc/lsb-release
 
+cp $LFS/etc/lsb-release $LFS/etc/os-release
+
 # isolinux ve syslinux
 mesaj bilgi "ISOLinux ve SYSLinux ayarları yapılıyor"
-sed -i "s/^label.*/label $DAGITIM $KODADI $VERSIYON Live/g" iso_icerik/boot/syslinux/syslinux.cfg
+sed -i "s/^label.*/label $DAGITIM $KODADI $VERSIYON Calisan-Live/g" iso_icerik/boot/syslinux/syslinux.cfg
 sed -i "s/CDLABEL=[A-Z_]*/CDLABEL=$ISO_ETIKET/g" iso_icerik/boot/syslinux/syslinux.cfg
 sed -i "s/^title.*/title $DAGITIM $KODADI $VERSIYON (UEFI)/g" efi/loader/entries/milis.conf
 sed -i "s/CDLABEL=[A-Z_]*/CDLABEL=$ISO_ETIKET/g" efi/loader/entries/milis.conf
@@ -39,8 +41,7 @@ cp -r $BUILDER_ROOT/$OZELLESTIRME/syslinux/arkaplan.png iso_icerik/boot/isolinux
 mesaj bilgi "Masaüstü kurulum kısayolu açıklaması düzenleniyor"
 [ -f $LFS/root/Masaüstü/kurulum.desktop ] && sed -i "s/Milis Linux/$DAGITIM/g" $LFS/root/Masaüstü/kurulum.desktop
 [ -f $LFS/root/Desktop/kurulum.desktop ] && sed -i "s/Milis Linux/$DAGITIM/g" $LFS/root/Desktop/kurulum.desktop
-[ -f $LFS/home/atilla/Desktop/kurulum.desktop ] && sed -i "s/Milis Linux/$DAGITIM/g" $LFS/home/atillla/Desktop/kurulum.desktop
-[ -f $LFS/home/atilla/Masaüstü/kurulum.desktop ] && sed -i "s/Milis Linux/$DAGITIM/g" $LFS/home/atillla/Masaüstü/kurulum.desktop
+
 
 	
 # varsayılan root parolası
@@ -78,6 +79,14 @@ rm -rf tmp
 #ek-güncellemelerin eklenmesi
 if [ -d $BUILDER_ROOT/iso_icerik/updates ]; then rm -rf iso_icerik/updates;fi
 cp -rf $BUILDER_ROOT/$OZELLESTIRME/$MASAUSTU/updates iso_icerik/
+mv iso_icerik/updates/home/gecici_kullanici iso_icerik/updates/home/$CANLI_KULLANICI
+echo "$CANLI_KULLANICI" > iso_icerik/updates/etc/canli_kullanici
+[ -f iso_icerik/updates/home/$CANLI_KULLANICI/Desktop/kurulum.desktop ] && sed -i "s/Milis Linux/$DAGITIM/g" iso_icerik/updates/home/$CANLI_KULLANICI/Desktop/kurulum.desktop
+[ -f iso_icerik/updates/home/$CANLI_KULLANICI/Masaüstü/kurulum.desktop ] && sed -i "s/Milis Linux/$DAGITIM/g" iso_icerik/updates/home/$CANLI_KULLANICI/Masaüstü/kurulum.desktop
+# kullanici için gerekli home izinleri ve yapılacak betiğin ayarlanması
+sed -i "s/canlikullanici/$CANLI_KULLANICI/g" $BUILDER_ROOT/iso_icerik/updates/root/bin/canli_kullanici.sh
+sed -i "s/canlikullanici/$CANLI_KULLANICI/g" $BUILDER_ROOT/$OZELLESTIRME/$MASAUSTU/updates/etc/security/opasswd
+sed -i "s/canlikullanici/$CANLI_KULLANICI/g" $BUILDER_ROOT/$OZELLESTIRME/$MASAUSTU/updates/etc/slim.conf
 
 # iso için zaman ayarlı sürüm no belirlemek.
 zaman_surumu=`date +%Y%m%d%H%M`
@@ -95,8 +104,8 @@ if [ ! -d $LFS/var/lib/pkg/DB/milis-yukleyici ];then
 		git clone $YUKLEYICI_GITREPO $YUKLEYICI_KONUM
 	fi
 	cp -rf $YUKLEYICI_KONUM  $BUILDER_ROOT/iso_icerik/updates/opt/
-	[ -d $LFS/home/atillla/Masaüstü ] && chmod 755 $LFS/home/atillla/Masaüstü/*.desktop
-	[ -d $LFS/home/atillla/Desktop ] && chmod 755 $LFS/home/atillla/Desktop/*.desktop
+	[ -d $BUILDER_ROOT/iso_icerik/updates/home/$CANLI_KULLANICI/Masaüstü ] && chmod 755 $BUILDER_ROOT/iso_icerik/updates/home/$CANLI_KULLANICI/Masaüstü/*.desktop
+	[ -d $BUILDER_ROOT/iso_icerik/updates/home/$CANLI_KULLANICI/Desktop ] && chmod 755 $BUILDER_ROOT/iso_icerik/updates/home/$CANLI_KULLANICI/Desktop/*.desktop
 	echo $milis_surum_no > $BUILDER_ROOT/iso_icerik/updates/etc/milis-surum
 fi
 
