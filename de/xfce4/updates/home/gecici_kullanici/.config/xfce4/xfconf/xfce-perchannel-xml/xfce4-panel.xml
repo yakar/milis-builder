@@ -60,7 +60,7 @@
     </property>
     <property name="plugin-7" type="string" value="showdesktop"/>
     <property name="plugin-8" type="string" value="clock">
-      <property name="timezone" type="string" value=""/>
+      <property name="timezone" type="string" value="Europe/Istanbul"/>
     </property>
     <property name="plugin-5" type="string" value="launcher">
       <property name="items" type="array">

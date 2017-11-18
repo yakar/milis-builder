@@ -64,7 +64,7 @@
         </property>
         <property name="workspace1" type="empty">
           <property name="color-style" type="int" value="0"/>
-          <property name="image-style" type="int" value="0"/>
+          <property name="image-style" type="int" value="1"/>
           <property name="last-image" type="string" value="/sources/milis.git/ayarlar/milis-linux-arkaplan.png"/>
         </property>
       </property>

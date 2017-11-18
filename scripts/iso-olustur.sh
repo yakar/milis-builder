@@ -27,15 +27,7 @@ echo "DISTRIB_CODENAME=\"$KODADI\"" >> $LFS/etc/lsb-release
 
 cp $LFS/etc/lsb-release $LFS/etc/os-release
 
-# isolinux ve syslinux
-mesaj bilgi "ISOLinux ve SYSLinux ayarları yapılıyor"
-sed -i "s/^label.*/label $DAGITIM $KODADI $VERSIYON Calisan-Live/g" iso_icerik/boot/syslinux/syslinux.cfg
-sed -i "s/CDLABEL=[A-Z_]*/CDLABEL=$ISO_ETIKET/g" iso_icerik/boot/syslinux/syslinux.cfg
-sed -i "s/^title.*/title $DAGITIM $KODADI $VERSIYON (UEFI)/g" efi/loader/entries/milis.conf
-sed -i "s/CDLABEL=[A-Z_]*/CDLABEL=$ISO_ETIKET/g" efi/loader/entries/milis.conf
-cp -r iso_icerik/boot/syslinux/syslinux.cfg iso_icerik/boot/isolinux/isolinux.cfg
-cp -r $BUILDER_ROOT/$OZELLESTIRME/syslinux/arkaplan.png iso_icerik/boot/syslinux/arkaplan.png
-cp -r $BUILDER_ROOT/$OZELLESTIRME/syslinux/arkaplan.png iso_icerik/boot/isolinux/arkaplan.png
+
 
 # kurulum.desktop dağıtım adı
 mesaj bilgi "Masaüstü kurulum kısayolu açıklaması düzenleniyor"
@@ -75,6 +67,16 @@ mksquashfs tmp iso_icerik/LiveOS/squashfs.img -comp xz -b 256K -Xbcj x86
 chmod 444 iso_icerik/LiveOS/squashfs.img
 rm -rf tmp
 
+# isolinux ve syslinux
+mesaj bilgi "ISOLinux ve SYSLinux ayarları yapılıyor"
+sed -i "s/^label.*/label $DAGITIM $KODADI $VERSIYON Deneme-Kurulan/g" iso_icerik/boot/syslinux/syslinux.cfg
+sed -i "s/CDLABEL=[A-Z_]*/CDLABEL=$ISO_ETIKET/g" iso_icerik/boot/syslinux/syslinux.cfg
+sed -i "s/^title.*/title $DAGITIM $KODADI $VERSIYON (UEFI)/g" efi/loader/entries/milis.conf
+sed -i "s/CDLABEL=[A-Z_]*/CDLABEL=$ISO_ETIKET/g" efi/loader/entries/milis.conf
+cp -r iso_icerik/boot/syslinux/syslinux.cfg iso_icerik/boot/isolinux/isolinux.cfg
+cp -r $BUILDER_ROOT/$OZELLESTIRME/syslinux/arkaplan.png iso_icerik/boot/syslinux/arkaplan.png
+cp -r $BUILDER_ROOT/$OZELLESTIRME/syslinux/arkaplan.png iso_icerik/boot/isolinux/arkaplan.png
+
 
 #ek-güncellemelerin eklenmesi
 if [ -d $BUILDER_ROOT/iso_icerik/updates ]; then rm -rf iso_icerik/updates;fi
@@ -85,8 +87,18 @@ echo "$CANLI_KULLANICI" > iso_icerik/updates/etc/canli_kullanici
 [ -f iso_icerik/updates/home/$CANLI_KULLANICI/Masaüstü/kurulum.desktop ] && sed -i "s/Milis Linux/$DAGITIM/g" iso_icerik/updates/home/$CANLI_KULLANICI/Masaüstü/kurulum.desktop
 # kullanici için gerekli home izinleri ve yapılacak betiğin ayarlanması
 sed -i "s/canlikullanici/$CANLI_KULLANICI/g" $BUILDER_ROOT/iso_icerik/updates/root/bin/canli_kullanici.sh
-sed -i "s/canlikullanici/$CANLI_KULLANICI/g" $BUILDER_ROOT/$OZELLESTIRME/$MASAUSTU/updates/etc/security/opasswd
-sed -i "s/canlikullanici/$CANLI_KULLANICI/g" $BUILDER_ROOT/$OZELLESTIRME/$MASAUSTU/updates/etc/slim.conf
+sed -i "s/canlikullanici/$CANLI_KULLANICI/g" $BUILDER_ROOT/iso_icerik/updates/etc/security/opasswd
+sed -i "s/canlikullanici/$CANLI_KULLANICI/g" $BUILDER_ROOT/iso_icerik/updates/etc/slim.conf
+sed -i "s/canlikullanici/$CANLI_KULLANICI/g" $BUILDER_ROOT/iso_icerik/updates/etc/passwd
+sed -i "s/canlikullanici/$CANLI_KULLANICI/g" $BUILDER_ROOT/iso_icerik/updates/etc/group
+sed -i "s/canlikullanici/$CANLI_KULLANICI/g" $BUILDER_ROOT/iso_icerik/updates/etc/gshadow
+sed -i "s/canlikullanici/$CANLI_KULLANICI/g" $BUILDER_ROOT/iso_icerik/updates/etc/shadow
+
+#slim teması ayarlanması
+if [ ! -z ${SLIM_TEMA_YOL+:} ] && [ -d $SLIM_TEMA_YOL ];then
+	mkdir -p $BUILDER_ROOT/iso_icerik/updates/usr/share/slim/themes
+	cp -rf $BUILDER_ROOT/$OZELLESTIRME/slim/temalar/* $BUILDER_ROOT/iso_icerik/updates/usr/share/slim/themes/
+fi
 
 # iso için zaman ayarlı sürüm no belirlemek.
 zaman_surumu=`date +%Y%m%d%H%M`
@@ -106,6 +118,7 @@ if [ ! -d $LFS/var/lib/pkg/DB/milis-yukleyici ];then
 	cp -rf $YUKLEYICI_KONUM  $BUILDER_ROOT/iso_icerik/updates/opt/
 	[ -d $BUILDER_ROOT/iso_icerik/updates/home/$CANLI_KULLANICI/Masaüstü ] && chmod 755 $BUILDER_ROOT/iso_icerik/updates/home/$CANLI_KULLANICI/Masaüstü/*.desktop
 	[ -d $BUILDER_ROOT/iso_icerik/updates/home/$CANLI_KULLANICI/Desktop ] && chmod 755 $BUILDER_ROOT/iso_icerik/updates/home/$CANLI_KULLANICI/Desktop/*.desktop
+	chmod 645 $BUILDER_ROOT/iso_icerik/updates/$YUKLEYICI_KONUM/milis-kur
 	echo $milis_surum_no > $BUILDER_ROOT/iso_icerik/updates/etc/milis-surum
 fi
 
