@@ -18,6 +18,7 @@ cp -r $BUILDER_ROOT/$OZELLESTIRME/syslinux/arkaplan.png iso_icerik/boot/isolinux
 if [ -d $BUILDER_ROOT/iso_icerik/updates ]; then rm -rf iso_icerik/updates;fi
 cp -rf $BUILDER_ROOT/$OZELLESTIRME/$MASAUSTU/updates iso_icerik/
 mv iso_icerik/updates/home/gecici_kullanici iso_icerik/updates/home/$CANLI_KULLANICI
+echo "$CANLI_KULLANICI" > iso_icerik/updates/etc/canli_kullanici
 [ -f $LFS/home/$CANLI_KULLANICI/Desktop/kurulum.desktop ] && sed -i "s/Milis Linux/$DAGITIM/g" $LFS/home/$CANLI_KULLANICI/Desktop/kurulum.desktop
 [ -f $LFS/home/$CANLI_KULLANICI/Masaüstü/kurulum.desktop ] && sed -i "s/Milis Linux/$DAGITIM/g" $LFS/home/$CANLI_KULLANICI/Masaüstü/kurulum.desktop
 # kullanici için gerekli home izinleri ve yapılacak betiğin ayarlanması

@@ -49,4 +49,96 @@
 	<patterns>*</patterns>
 	<directories/>
 </action>
+<action>
+	<icon>/usr/share/icons/Numix/16/mimetypes/package-x-generic.svg</icon>
+	<name>Buraya çıkar (tar, tar.gz, tar.bz2, gzip)</name>
+	<unique-id>1369723703661939-14</unique-id>
+	<command>mkdir %Nex;cd %Nex;tar -xf %F</command>
+	<description>Extract without dialogs</description>
+	<patterns>*.tar;*.TAR;*.gz;*.xz;*.GZ;*.tar.bz2;*.TAR.BZ2;*.gzip;*.GZIP;*.tgz;*.mps.lz</patterns>
+	<audio-files/>
+	<image-files/>
+	<other-files/>
+	<text-files/>
+	<video-files/>
+</action>
+<action>
+	<icon>/usr/share/icons/Numix/16/mimetypes/package-x-generic.svg</icon>
+	<name>Buraya çıkar (zip)</name>
+	<unique-id>1369723703661952-15</unique-id>
+	<command>mkdir %Nex;cd %Nex;unzip %F</command>
+	<description>Extract without dialogs</description>
+	<patterns>*.zip;*.ZIP</patterns>
+	<directories/>
+	<audio-files/>
+	<image-files/>
+	<other-files/>
+	<text-files/>
+	<video-files/>
+</action>
+<action>
+	<icon>/usr/share/icons/Numix/16/mimetypes/package-x-generic.svg</icon>
+	<name>Milis Paketini İncele</name>
+	<unique-id>1369723703661952-17</unique-id>
+	<command>notify-send %N)</command>
+	<description>Milis Paketini İncele</description>
+	<patterns>*.mps.lz;</patterns>
+	<directories/>
+	<audio-files/>
+	<image-files/>
+	<other-files/>
+	<text-files/>
+	<video-files/>
+</action>
+<action>
+	<icon>/usr/share/icons/Numix/16/mimetypes/package-x-generic.svg</icon>
+	<name>Buraya aç (rar)</name>
+	<unique-id>1369723703661964-16</unique-id>
+	<command>mkdir %Nex;cd %Nex;unrar x %F</command>
+	<description>Extract without dialogs</description>
+	<patterns>*.rar;*.RAR;*.r0*;*.R0*;*.*01</patterns>
+	<directories/>
+	<audio-files/>
+	<image-files/>
+	<other-files/>
+	<text-files/>
+	<video-files/>
+</action>
+<action>
+	<icon>/usr/share/icons/Numix/16/mimetypes/package-x-generic.svg</icon>
+	<name>Buraya aç (7zip)</name>
+	<unique-id>1369723703661974-17</unique-id>
+	<command>mkdir %Nex;cd %Nex;p7zip -d %F</command>
+	<description>Extract without dialogs</description>
+	<patterns>*.7z</patterns>
+	<other-files/>
+</action>
+<action>
+	<icon>/usr/share/icons/Numix/16/mimetypes/package-x-generic.svg</icon>
+	<name>Arşiv yap (.zip)</name>
+	<unique-id>1369723703662000-19</unique-id>
+	<command>zip -r %f.zip %N</command>
+	<description>Add to .zip archive without dialogs</description>
+	<patterns>*</patterns>
+	<directories/>
+	<audio-files/>
+	<image-files/>
+	<other-files/>
+	<text-files/>
+	<video-files/>
+</action>
+<action>
+	<icon>/usr/share/icons/Numix/16/mimetypes/package-x-generic.svg</icon>
+	<name>Arşiv yap (.tar.gz)</name>
+	<unique-id>1369723703662011-20</unique-id>
+	<command>tar -pczf %f.tar.gz %N</command>
+	<description>Add to .tar.gz archive without dialogs</description>
+	<patterns>*</patterns>
+	<directories/>
+	<audio-files/>
+	<image-files/>
+	<other-files/>
+	<text-files/>
+	<video-files/>
+</action>
 </actions>
