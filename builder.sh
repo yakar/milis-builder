@@ -85,7 +85,8 @@ case "$2" in
 		. scripts/iso-olustur.sh
 		;;
 	-si|--sadece-iso)
-		. scripts/sadece-iso-olustur.sh
+		SFS_OLUSTUR=1
+		. scripts/iso-olustur.sh
 		;;
 	-c|--chroot)
 		. scripts/chroot.sh
@@ -97,19 +98,19 @@ case "$2" in
 		;;
 
 	# yps secenekleri
-	--yps-olustur)
+	-yo|--yps-olustur)
 		. scripts/yps-olustur.sh
 		;;
-	--yps-baslat)
+	-yb|--yps-baslat)
 		. scripts/yps-baslat.sh
 		;;
-	--yps-durdur)
+	-yd|--yps-durdur)
 		fuser -k 8888/tcp
 		;;
-	--yps-guncelle)
+	-yg|--yps-guncelle)
 		. scripts/yps-guncelle.sh
 		;;
-	--yps-kontrol)
+	-yk|--yps-kontrol)
 		. scripts/yps-kontrol.sh
 		;;
 	-y|-h|--yardim)
