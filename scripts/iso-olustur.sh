@@ -88,8 +88,9 @@ if [ -d $BUILDER_ROOT/iso_icerik/updates ]; then rm -rf iso_icerik/updates;fi
 cp -rf $BUILDER_ROOT/$OZELLESTIRME/$MASAUSTU/updates iso_icerik/
 mv iso_icerik/updates/home/gecici_kullanici iso_icerik/updates/home/$CANLI_KULLANICI
 echo "$CANLI_KULLANICI" > iso_icerik/updates/etc/canli_kullanici
-[ -f $BUILDER_ROOT/iso_icerik/updates/home/$CANLI_KULLANICI/Desktop/kurulum.desktop ] && sed -i "s/Milis Linux/$DAGITIM/g"  $BUILDER_ROOT/iso_icerik/updates/home/$CANLI_KULLANICI/Desktop/kurulum.desktop
-[ -f $BUILDER_ROOT/iso_icerik/updates/home/$CANLI_KULLANICI/Masaüstü/kurulum.desktop ] && sed -i "s/Milis Linux/$DAGITIM/g" $BUILDER_ROOT/iso_icerik/updates/home/$CANLI_KULLANICI/Masaüstü/kurulum.desktop
+[ -d $BUILDER_ROOT/iso_icerik/updates/home/$CANLI_KULLANICI/Masaüstü ] && chmod 755 $BUILDER_ROOT/iso_icerik/updates/home/$CANLI_KULLANICI/Masaüstü/*.desktop
+[ -d $BUILDER_ROOT/iso_icerik/updates/home/$CANLI_KULLANICI/Desktop ]  && chmod 755 $BUILDER_ROOT/iso_icerik/updates/home/$CANLI_KULLANICI/Desktop/*.desktop
+	
 # kullanici için gerekli home izinleri ve yapılacak betiğin ayarlanması
 sed -i "s/canlikullanici/$CANLI_KULLANICI/g" $BUILDER_ROOT/iso_icerik/updates/root/bin/canli_kullanici.sh
 sed -i "s/canlikullanici/$CANLI_KULLANICI/g" $BUILDER_ROOT/iso_icerik/updates/etc/security/opasswd
@@ -121,9 +122,9 @@ if [ ! -d $LFS/var/lib/pkg/DB/milis-yukleyici ];then
 		git clone $YUKLEYICI_GITREPO $YUKLEYICI_KONUM
 	fi
 	cp -rf $YUKLEYICI_KONUM  $BUILDER_ROOT/iso_icerik/updates/opt/
-	[ -d $BUILDER_ROOT/iso_icerik/updates/home/$CANLI_KULLANICI/Masaüstü ] && chmod 755 $BUILDER_ROOT/iso_icerik/updates/home/$CANLI_KULLANICI/Masaüstü/*.desktop
-	[ -d $BUILDER_ROOT/iso_icerik/updates/home/$CANLI_KULLANICI/Desktop ] && chmod 755 $BUILDER_ROOT/iso_icerik/updates/home/$CANLI_KULLANICI/Desktop/*.desktop
-	chmod 645 $BUILDER_ROOT/iso_icerik/updates/$YUKLEYICI_KONUM/milis-kur
+	[ -f $BUILDER_ROOT/iso_icerik/updates/home/$CANLI_KULLANICI/Desktop/kurulum.desktop ]  && sed -i "s/Milis Linux/$DAGITIM/g"  $BUILDER_ROOT/iso_icerik/updates/home/$CANLI_KULLANICI/Desktop/kurulum.desktop
+    [ -f $BUILDER_ROOT/iso_icerik/updates/home/$CANLI_KULLANICI/Masaüstü/kurulum.desktop ] && sed -i "s/Milis Linux/$DAGITIM/g"  $BUILDER_ROOT/iso_icerik/updates/home/$CANLI_KULLANICI/Masaüstü/kurulum.desktop
+	[ -f $BUILDER_ROOT/iso_icerik/updates/$YUKLEYICI_KONUM/milis-kur ] && chmod 645 $BUILDER_ROOT/iso_icerik/updates/$YUKLEYICI_KONUM/milis-kur
 	echo $milis_surum_no > $BUILDER_ROOT/iso_icerik/updates/etc/milis-surum
 fi
 
