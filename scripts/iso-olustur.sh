@@ -88,8 +88,8 @@ if [ -d $BUILDER_ROOT/iso_icerik/updates ]; then rm -rf iso_icerik/updates;fi
 cp -rf $BUILDER_ROOT/$OZELLESTIRME/$MASAUSTU/updates iso_icerik/
 mv iso_icerik/updates/home/gecici_kullanici iso_icerik/updates/home/$CANLI_KULLANICI
 echo "$CANLI_KULLANICI" > iso_icerik/updates/etc/canli_kullanici
-[ -f $LFS/home/$CANLI_KULLANICI/Desktop/kurulum.desktop ] && sed -i "s/Milis Linux/$DAGITIM/g" $LFS/home/$CANLI_KULLANICI/Desktop/kurulum.desktop
-[ -f $LFS/home/$CANLI_KULLANICI/Masaüstü/kurulum.desktop ] && sed -i "s/Milis Linux/$DAGITIM/g" $LFS/home/$CANLI_KULLANICI/Masaüstü/kurulum.desktop
+[ -f $BUILDER_ROOT/iso_icerik/updates/home/$CANLI_KULLANICI/Desktop/kurulum.desktop ] && sed -i "s/Milis Linux/$DAGITIM/g"  $BUILDER_ROOT/iso_icerik/updates/home/$CANLI_KULLANICI/Desktop/kurulum.desktop
+[ -f $BUILDER_ROOT/iso_icerik/updates/home/$CANLI_KULLANICI/Masaüstü/kurulum.desktop ] && sed -i "s/Milis Linux/$DAGITIM/g" $BUILDER_ROOT/iso_icerik/updates/home/$CANLI_KULLANICI/Masaüstü/kurulum.desktop
 # kullanici için gerekli home izinleri ve yapılacak betiğin ayarlanması
 sed -i "s/canlikullanici/$CANLI_KULLANICI/g" $BUILDER_ROOT/iso_icerik/updates/root/bin/canli_kullanici.sh
 sed -i "s/canlikullanici/$CANLI_KULLANICI/g" $BUILDER_ROOT/iso_icerik/updates/etc/security/opasswd
