@@ -82,10 +82,11 @@ case "$2" in
 		. scripts/iso-onhazirlik.sh
 		;;
 	-i|--iso|adim2)
-		SFS_OLUSTUR=1
+		SFS_OLUSTUR="var"
 		. scripts/iso-olustur.sh
 		;;
 	-si|--sadece-iso)
+		SFS_OLUSTUR="yok"
 		. scripts/iso-olustur.sh
 		;;
 	-c|--chroot)
