@@ -3,69 +3,74 @@
 mesaj bilgi "$DAGITIM için ISO hazırlanıyor..."
 #umount
 _umount
-cd $BUILDER_ROOT
-# son ayar yuklemeleri
-mesaj bilgi "ISO için ön ayarlar yapılıyor.."
-cp -f $LFS/sources/milis.git/rootfs/etc/bashrc $LFS/etc/bashrc
-cp -f $LFS/sources/milis.git/rootfs/etc/profile $LFS/etc/profile
-cp -f $LFS/sources/milis.git/ayarlar/mps.conf $LFS/etc/mps.conf
-cp -f $LFS/sources/milis.git/rootfs/etc/rc.d/init.d/* $LFS/etc/rc.d/init.d/
 
-mkdir -p iso_icerik
-rm -f iso_icerik/boot/kernel
-rm -f iso_icerik/boot/initramfs
-rm -rf iso_icerik/LiveOS
-cp -rf $LFS/boot/kernel-* iso_icerik/boot/kernel
-cp -rf $LFS/boot/initramfs* iso_icerik/boot/initramfs
+#SQUASHFS ISLEMLERI
+if [ ! -z $SFS_OLUSTUR ]; then
 
+	cd $BUILDER_ROOT
+	# son ayar yuklemeleri
+	mesaj bilgi "ISO için ön ayarlar yapılıyor.."
+	cp -f $LFS/sources/milis.git/rootfs/etc/bashrc $LFS/etc/bashrc
+	cp -f $LFS/sources/milis.git/rootfs/etc/profile $LFS/etc/profile
+	cp -f $LFS/sources/milis.git/ayarlar/mps.conf $LFS/etc/mps.conf
+	cp -f $LFS/sources/milis.git/rootfs/etc/rc.d/init.d/* $LFS/etc/rc.d/init.d/
 
-# grub
-echo "DISTRIB_ID=\"$DAGITIM\"" > $LFS/etc/lsb-release
-echo "DISTRIB_RELEASE=\"$VERSIYON\"" >> $LFS/etc/lsb-release
-echo "DISTRIB_DESCRIPTION=\"$DAGITIM $KODADI $VERSIYON\"" >> $LFS/etc/lsb-release
-echo "DISTRIB_CODENAME=\"$KODADI\"" >> $LFS/etc/lsb-release
-
-cp $LFS/etc/lsb-release $LFS/etc/os-release
+	mkdir -p iso_icerik
+	rm -f iso_icerik/boot/kernel
+	rm -f iso_icerik/boot/initramfs
+	rm -rf iso_icerik/LiveOS
+	cp -rf $LFS/boot/kernel-* iso_icerik/boot/kernel
+	cp -rf $LFS/boot/initramfs* iso_icerik/boot/initramfs
 
 
+	# grub
+	echo "DISTRIB_ID=\"$DAGITIM\"" > $LFS/etc/lsb-release
+	echo "DISTRIB_RELEASE=\"$VERSIYON\"" >> $LFS/etc/lsb-release
+	echo "DISTRIB_DESCRIPTION=\"$DAGITIM $KODADI $VERSIYON\"" >> $LFS/etc/lsb-release
+	echo "DISTRIB_CODENAME=\"$KODADI\"" >> $LFS/etc/lsb-release
 
-# kurulum.desktop dağıtım adı
-mesaj bilgi "Masaüstü kurulum kısayolu açıklaması düzenleniyor"
-[ -f $LFS/root/Masaüstü/kurulum.desktop ] && sed -i "s/Milis Linux/$DAGITIM/g" $LFS/root/Masaüstü/kurulum.desktop
-[ -f $LFS/root/Desktop/kurulum.desktop ] && sed -i "s/Milis Linux/$DAGITIM/g" $LFS/root/Desktop/kurulum.desktop
+	cp $LFS/etc/lsb-release $LFS/etc/os-release
+
+
+
+	# kurulum.desktop dağıtım adı
+	mesaj bilgi "Masaüstü kurulum kısayolu açıklaması düzenleniyor"
+	[ -f $LFS/root/Masaüstü/kurulum.desktop ] && sed -i "s/Milis Linux/$DAGITIM/g" $LFS/root/Masaüstü/kurulum.desktop
+	[ -f $LFS/root/Desktop/kurulum.desktop ] && sed -i "s/Milis Linux/$DAGITIM/g" $LFS/root/Desktop/kurulum.desktop
 
 
 	
-# varsayılan root parolası
-mesaj bilgi "root varsayılan parolası değiştiriliyor"
-sed -i "49s/milis/$ROOT_PAROLASI/g" $LFS/etc/init.d/sysklogd
+	# varsayılan root parolası
+	mesaj bilgi "root varsayılan parolası değiştiriliyor"
+	sed -i "49s/milis/$ROOT_PAROLASI/g" $LFS/etc/init.d/sysklogd
 
 
-# LiveOS ayarları
-mesaj bilgi "LiveOS ayarları yapılıyor..."
-# varsa temp-root/ ve tmp/ umount edil silelim
-if [ -d temp-root ]; then
-    mountpoint -q temp-root && umount -l temp-root
-    rm -rf temp-root
+	# LiveOS ayarları
+	mesaj bilgi "LiveOS ayarları yapılıyor..."
+	# varsa temp-root/ ve tmp/ umount edil silelim
+	if [ -d temp-root ]; then
+	    mountpoint -q temp-root && umount -l temp-root
+	    rm -rf temp-root
+	fi
+	[[ -d tmp ]] && rm -rf tmp
+
+	#
+	mkdir -p tmp
+	fallocate -l 16G tmp/rootfs.img
+	mke2fs -t ext4 -L $ISO_ETIKET -F tmp/rootfs.img
+	mkdir -p temp-root
+	mount -o loop tmp/rootfs.img temp-root
+	mesaj bilgi "Chroot içerik dosya sistemi imajına kopyalanıyor..."
+	cp -dpR $LFS/* temp-root/
+	#rsync -a kur/ temp-root
+	umount -l temp-root
+	rm -rf temp-root 
+	mkdir -p iso_icerik/LiveOS
+	mesaj bilgi "Dosya sistemi imajı sıkıştırılıyor..."
+	mksquashfs tmp iso_icerik/LiveOS/squashfs.img -comp xz -b 256K -Xbcj x86
+	chmod 444 iso_icerik/LiveOS/squashfs.img
+	rm -rf tmp
 fi
-[[ -d tmp ]] && rm -rf tmp
-
-#
-mkdir -p tmp
-fallocate -l 16G tmp/rootfs.img
-mke2fs -t ext4 -L $ISO_ETIKET -F tmp/rootfs.img
-mkdir -p temp-root
-mount -o loop tmp/rootfs.img temp-root
-mesaj bilgi "Chroot içerik dosya sistemi imajına kopyalanıyor..."
-cp -dpR $LFS/* temp-root/
-#rsync -a kur/ temp-root
-umount -l temp-root
-rm -rf temp-root 
-mkdir -p iso_icerik/LiveOS
-mesaj bilgi "Dosya sistemi imajı sıkıştırılıyor..."
-mksquashfs tmp iso_icerik/LiveOS/squashfs.img -comp xz -b 256K -Xbcj x86
-chmod 444 iso_icerik/LiveOS/squashfs.img
-rm -rf tmp
 
 # isolinux ve syslinux
 mesaj bilgi "ISOLinux ve SYSLinux ayarları yapılıyor"
@@ -83,8 +88,8 @@ if [ -d $BUILDER_ROOT/iso_icerik/updates ]; then rm -rf iso_icerik/updates;fi
 cp -rf $BUILDER_ROOT/$OZELLESTIRME/$MASAUSTU/updates iso_icerik/
 mv iso_icerik/updates/home/gecici_kullanici iso_icerik/updates/home/$CANLI_KULLANICI
 echo "$CANLI_KULLANICI" > iso_icerik/updates/etc/canli_kullanici
-[ -f iso_icerik/updates/home/$CANLI_KULLANICI/Desktop/kurulum.desktop ] && sed -i "s/Milis Linux/$DAGITIM/g" iso_icerik/updates/home/$CANLI_KULLANICI/Desktop/kurulum.desktop
-[ -f iso_icerik/updates/home/$CANLI_KULLANICI/Masaüstü/kurulum.desktop ] && sed -i "s/Milis Linux/$DAGITIM/g" iso_icerik/updates/home/$CANLI_KULLANICI/Masaüstü/kurulum.desktop
+[ -f $LFS/home/$CANLI_KULLANICI/Desktop/kurulum.desktop ] && sed -i "s/Milis Linux/$DAGITIM/g" $LFS/home/$CANLI_KULLANICI/Desktop/kurulum.desktop
+[ -f $LFS/home/$CANLI_KULLANICI/Masaüstü/kurulum.desktop ] && sed -i "s/Milis Linux/$DAGITIM/g" $LFS/home/$CANLI_KULLANICI/Masaüstü/kurulum.desktop
 # kullanici için gerekli home izinleri ve yapılacak betiğin ayarlanması
 sed -i "s/canlikullanici/$CANLI_KULLANICI/g" $BUILDER_ROOT/iso_icerik/updates/root/bin/canli_kullanici.sh
 sed -i "s/canlikullanici/$CANLI_KULLANICI/g" $BUILDER_ROOT/iso_icerik/updates/etc/security/opasswd
