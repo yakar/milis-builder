@@ -4,7 +4,7 @@
 if [ -z $1 ]; then mesaj hata "Parametre belirtilmelidir."; fi
 
 mesaj yesil "
-Milis Builder 2017.09
+Milis Builder 2017.11
 
 Genel Parametreler
 	-t | --temizle
@@ -17,6 +17,9 @@ Genel Parametreler
 	Son aşamadır, dağıtımı iso formatına çevirir. Öncesinde --onhazirlik ile gerekli temel paketlerin
 	kurulmuş olması gerekmektedir.
 
+	-si | --sadece-iso
+	SquashFS oluşturma adımını atlayarak iso oluşturmaktadır. SquashFS'nin oluşturulmuş olması gerekmektedir.
+
 	-c | --chroot
 	Ön hazırlığı yapılmış dağıtım için elle müdahale imkanı tanır.
 
@@ -27,20 +30,20 @@ Genel Parametreler
 	Bu yardım metnini görüntüler.
 
 Yerel Paket Sistemi:
-	--yps-olustur
+	-yo | --yps-olustur
 	Yerel paket sunucusu oluşturmak için kullanılır. Dağıtım hazırlama sırasında tekrar tekrar
 	tüm paketlerin indirilmesi istenmiyorsa bu seçenek kullanılabilir. Fakat unutulmamalıdır ki
 	kullanmasanız da sunucuda bulunan tüm paketler indirilecektir.
 
-	--yps-baslat
+	-yb | --yps-baslat
 	Oluşturulmuş olan Yerel Paket Sistemi (--yps-olustur) başlatılacaktır.
 
-	--yps-durdur
+	-yd | --yps-durdur
 	Başlatılan Yerel Paket Sistemi (--yps-baslat) durdurulacaktır.
 
-	--yps-guncelle
+	-yg | --yps-guncelle
 	Yerel Paket Sistemi ile Miilis Paket Sunucusunu eşitler.
 
-	--yps-kontrol
+	-yk | --yps-kontrol
 	Yerel Paket Sistemi yolu, veritabanı kontrolü, çalışıp çalışmadığı gibi kontrolleri sağlar.
 	"
