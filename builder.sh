@@ -80,9 +80,8 @@ case "$1" in
 		;;
 	-si|--sadece-iso)
 		ayarlar
-		SFS_OLUSTUR=1
+		SFS_OLUSTUR="var"
 		. scripts/iso-olustur.sh
-
 		;;
 	-c|--chroot)
 		. scripts/chroot.sh
