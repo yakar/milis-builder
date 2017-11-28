@@ -15,24 +15,6 @@ BUILDER_ROOT=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 # yetki kontrol
 if [ "$(id -u)" != "0" ]; then mesaj hata "Root hakları ile çalıştırılmalıdır."; exit 1; fi
 
-# ayarlar.conf'da belirtilmesi gereken degiskenlerin kontrolu
-if [ -z "$DAGITIM" ]; then 			mesaj hata "DAGITIM=\"\" ayarlar.conf dosyasında tanımlanmamış!"; exit 1; fi
-if [ -z "$KODADI" ]; then 			mesaj hata "KODADI=\"\" ayarlar.conf dosyasında tanımlanmamış!"; exit 1; fi
-if [ -z "$VERSIYON" ];then 			mesaj hata "VERSIYON=\"\" ayarlar.conf dosyasında tanımlanmamış!"; exit 1; fi
-if [ -z "$MASAUSTU" ];then 			mesaj hata "MASAUSTU=\"\" ayarlar.conf dosyasında tanımlanmamış!"; exit 1; fi
-if [ -z "$GIRISYONETICISI" ];then	mesaj hata "GIRISYONETICISI=\"\" ayarlar.conf dosyasında tanımlanmamış!"; exit 1; fi
-if [ -z "$HOSTNAME" ];then 			mesaj hata "HOSTNAME=\"\" ayarlar.conf dosyasında tanımlanmamış!"; exit 1; fi
-if [ -z "$CANLI_KULLANICI" ];then 	mesaj hata "CANLI_KULLANICI=\"\" ayarlar.conf dosyasında tanımlanmamış!"; exit 1; fi
-if [ -z "$ROOT_PAROLASI" ];then 	mesaj hata "ROOT_PAROLASI=\"\" ayarlar.conf dosyasında tanımlanmamış!"; exit 1; fi
-if [ -z "$ISO_ETIKET" ];then 		mesaj hata "ISO_ETIKET=\"\" ayarlar.conf dosyasında tanımlanmamış!"; exit 1; fi
-if [ -z "$UEFI" ];then 				mesaj hata "UEFI=\"\" ayarlar.conf dosyasında tanımlanmamış!"; exit 1; fi
-if [ -z "$OZELLESTIRME" ];then 		mesaj hata "OZELLESTIRME=\"\" ayarlar.conf dosyasında tanımlanmamış!"; exit 1; fi
-if [ ! -d "$OZELLESTIRME" ];then 	mesaj hata "ayarlar.conf da belirtilen '$OZELLESTIRME' klasörü bulunamadı!"; exit 1; fi
-if [ -z "$PLYMOUTH_TEMA" ];then 	mesaj hata "PLYMOUTH_TEMA=\"\" ayarlar.conf dosyasında tanımlanmamış!"; exit 1; fi
-if [ -z "$LFS" ];then 				mesaj hata "LFS=\"\" ayarlar.conf dosyasında tanımlanmamış!"; exit 1; fi
-if [ -z "$MPSCONF" ];then 			mesaj hata "MPSCONF=\"\" ayarlar.conf dosyasında tanımlanmamış!"; exit 1; fi
-if [ -z "$sunucular" ];then			mesaj hata "sunucular=\"\" mps.conf dosyasında tanımlanmamış!"; exit 1; fi
-
 # gerekli paketlerin kontrolu ve yoksa kurulmasi
 if [ ! -d "/var/lib/pkg/DB/lzip" ]; then 		mps kur lzip;		fi
 if [ ! -d "/var/lib/pkg/DB/squashfs" ]; then	mps kur squashfs;	fi
@@ -48,6 +30,24 @@ ayarlar() {
 		mesaj hata "iso yapımı için bir ayar dosyası yolu bulunamadı."
 		. $BUILDER_ROOT/ayarlar/ayarlar.conf
 	fi
+
+	# ayarlar.conf'da belirtilmesi gereken degiskenlerin kontrolu
+	if [ -z "$DAGITIM" ]; then 			mesaj hata "DAGITIM=\"\" ayarlar.conf dosyasında tanımlanmamış!"; exit 1; fi
+	if [ -z "$KODADI" ]; then 			mesaj hata "KODADI=\"\" ayarlar.conf dosyasında tanımlanmamış!"; exit 1; fi
+	if [ -z "$VERSIYON" ];then 			mesaj hata "VERSIYON=\"\" ayarlar.conf dosyasında tanımlanmamış!"; exit 1; fi
+	if [ -z "$MASAUSTU" ];then 			mesaj hata "MASAUSTU=\"\" ayarlar.conf dosyasında tanımlanmamış!"; exit 1; fi
+	if [ -z "$GIRISYONETICISI" ];then	mesaj hata "GIRISYONETICISI=\"\" ayarlar.conf dosyasında tanımlanmamış!"; exit 1; fi
+	if [ -z "$HOSTNAME" ];then 			mesaj hata "HOSTNAME=\"\" ayarlar.conf dosyasında tanımlanmamış!"; exit 1; fi
+	if [ -z "$CANLI_KULLANICI" ];then 	mesaj hata "CANLI_KULLANICI=\"\" ayarlar.conf dosyasında tanımlanmamış!"; exit 1; fi
+	if [ -z "$ROOT_PAROLASI" ];then 	mesaj hata "ROOT_PAROLASI=\"\" ayarlar.conf dosyasında tanımlanmamış!"; exit 1; fi
+	if [ -z "$ISO_ETIKET" ];then 		mesaj hata "ISO_ETIKET=\"\" ayarlar.conf dosyasında tanımlanmamış!"; exit 1; fi
+	if [ -z "$UEFI" ];then 				mesaj hata "UEFI=\"\" ayarlar.conf dosyasında tanımlanmamış!"; exit 1; fi
+	if [ -z "$OZELLESTIRME" ];then 		mesaj hata "OZELLESTIRME=\"\" ayarlar.conf dosyasında tanımlanmamış!"; exit 1; fi
+	if [ ! -d "$OZELLESTIRME" ];then 	mesaj hata "ayarlar.conf da belirtilen '$OZELLESTIRME' klasörü bulunamadı!"; exit 1; fi
+	if [ -z "$PLYMOUTH_TEMA" ];then 	mesaj hata "PLYMOUTH_TEMA=\"\" ayarlar.conf dosyasında tanımlanmamış!"; exit 1; fi
+	if [ -z "$LFS" ];then 				mesaj hata "LFS=\"\" ayarlar.conf dosyasında tanımlanmamış!"; exit 1; fi
+	if [ -z "$MPSCONF" ];then 			mesaj hata "MPSCONF=\"\" ayarlar.conf dosyasında tanımlanmamış!"; exit 1; fi
+	if [ -z "$sunucular" ];then			mesaj hata "sunucular=\"\" mps.conf dosyasında tanımlanmamış!"; exit 1; fi
 }
 
 # mps.conf
