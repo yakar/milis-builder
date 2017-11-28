@@ -74,10 +74,8 @@ fi
 
 # isolinux ve syslinux
 mesaj bilgi "ISOLinux ve SYSLinux ayarları yapılıyor"
-sed -i "s/^label.*/label $DAGITIM $KODADI $VERSIYON Deneme-Kurulan/g" iso_icerik/boot/syslinux/syslinux.cfg
+sed -i "s/^label.*/label $DAGITIM $KODADI $VERSIYON Live/g" iso_icerik/boot/syslinux/syslinux.cfg
 sed -i "s/CDLABEL=[A-Z_]*/CDLABEL=$ISO_ETIKET/g" iso_icerik/boot/syslinux/syslinux.cfg
-sed -i "s/^title.*/title $DAGITIM $KODADI $VERSIYON (UEFI)/g" efi/loader/entries/milis.conf
-sed -i "s/CDLABEL=[A-Z_]*/CDLABEL=$ISO_ETIKET/g" efi/loader/entries/milis.conf
 cp -r iso_icerik/boot/syslinux/syslinux.cfg iso_icerik/boot/isolinux/isolinux.cfg
 cp -r $BUILDER_ROOT/$OZELLESTIRME/syslinux/arkaplan.png iso_icerik/boot/syslinux/arkaplan.png
 cp -r $BUILDER_ROOT/$OZELLESTIRME/syslinux/arkaplan.png iso_icerik/boot/isolinux/arkaplan.png
@@ -136,6 +134,8 @@ if [ $UEFI == "1" ]; then
     cp -rf $BUILDER_ROOT/iso_icerik/boot/kernel $BUILDER_ROOT/iso_icerik/efi_tmp/
     cp -rf $BUILDER_ROOT/iso_icerik/boot/initramfs $BUILDER_ROOT/iso_icerik/efi_tmp/
     cp -rf $BUILDER_ROOT/efi/* $BUILDER_ROOT/iso_icerik/efi_tmp/
+    sed -i "s/^title.*/title $DAGITIM $KODADI $VERSIYON (UEFI)/g" efi/loader/entries/milis.conf
+	sed -i "s/CDLABEL=[A-Z_]*/CDLABEL=$ISO_ETIKET/g" efi/loader/entries/milis.conf
     umount $BUILDER_ROOT/iso_icerik/efi_tmp 
     rm -rf $BUILDER_ROOT/iso_icerik/efi_tmp
 fi
