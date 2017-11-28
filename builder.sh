@@ -94,18 +94,22 @@ case "$1" in
 
 	# yps secenekleri
 	-yo|--yps-olustur)
+		ayarlar $2
 		. scripts/yps-olustur.sh
 		;;
 	-yb|--yps-baslat)
+		ayarlar $2
 		. scripts/yps-baslat.sh
 		;;
 	-yd|--yps-durdur)
 		fuser -k 8888/tcp
 		;;
 	-yg|--yps-guncelle)
+		ayarlar $2
 		. scripts/yps-guncelle.sh
 		;;
 	-yk|--yps-kontrol)
+		ayarlar $2
 		. scripts/yps-kontrol.sh
 		;;
 	-y|-h|--yardim)
