@@ -23,7 +23,7 @@ if [ ! -d "/var/lib/pkg/DB/cdrkit" ]; then		mps kur cdrkit;		fi
 
 # ayarlar
 ayarlar() {
-	if [ -f $1 ];then
+	if [ -f "$1" ];then
 		. $1
 	else
 		mesaj hata "iso yapımı için bir ayar dosyası yolu bulunamadı."
@@ -76,11 +76,11 @@ case "$1" in
 		;;
 	-i|--iso|adim2)
 		ayarlar $2
+		SFS_OLUSTUR="var"
 		. scripts/iso-olustur.sh
 		;;
 	-si|--sadece-iso)
 		ayarlar $2
-		SFS_OLUSTUR="var"
 		. scripts/iso-olustur.sh
 		;;
 	-c|--chroot)
