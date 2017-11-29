@@ -76,11 +76,11 @@ case "$1" in
 		;;
 	-i|--iso|adim2)
 		ayarlar $2
+		SFS_OLUSTUR="var"
 		. scripts/iso-olustur.sh
 		;;
 	-si|--sadece-iso)
 		ayarlar $2
-		SFS_OLUSTUR="var"
 		. scripts/iso-olustur.sh
 		;;
 	-c|--chroot)

@@ -5,7 +5,7 @@ mesaj bilgi "$DAGITIM için ISO hazırlanıyor..."
 _umount
 
 #SQUASHFS ISLEMLERI
-if [ $SFS_OLUSTUR == "var" ]; then
+if [ "$SFS_OLUSTUR" == "var" ]; then
 
 	cd $BUILDER_ROOT
 	# son ayar yuklemeleri
