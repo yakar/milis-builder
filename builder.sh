@@ -23,7 +23,7 @@ if [ ! -d "/var/lib/pkg/DB/cdrkit" ]; then		mps kur cdrkit;		fi
 
 # ayarlar
 ayarlar() {
-	if [ -f $1 ];then
+	if [ -f "$1" ];then
 		. $1
 	else
 		mesaj hata "iso yapımı için bir ayar dosyası yolu bulunamadı."
