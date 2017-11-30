@@ -99,6 +99,18 @@ sed -i "s/canlikullanici/$CANLI_KULLANICI/g" $BUILDER_ROOT/iso_icerik/updates/et
 sed -i "s/canlikullanici/$CANLI_KULLANICI/g" $BUILDER_ROOT/iso_icerik/updates/etc/gshadow
 sed -i "s/canlikullanici/$CANLI_KULLANICI/g" $BUILDER_ROOT/iso_icerik/updates/etc/shadow
 
+# canlı kullanıcı öntanımlı parola ayarlanması
+if [ -z ${CANLI_KULLANICI_PAROLA+:} ];then
+	# canlı kullanıcı parola ayarlanmadıysa öntanımlı 'milis' oalcaktır.
+	CANLI_KULLANICI_PAROLA="milis"
+fi
+if type python3 &> /dev/null;then
+	CK_PAROLA=$(python3 -c 'import crypt; print(crypt.crypt('"'$CANLI_KULLANICI_PAROLA'"', crypt.mksalt(crypt.METHOD_SHA512)))')
+else
+	CK_PAROLA="$6$ElNCkqJ.$uWgWHcF6DhxjO8XPxSPaK6OduxTwqXrrpILXoktW0lYKBMMrIXkmpIcn6VE8CEgbarl41cbdb.f6owQGwYrGg."
+fi
+sed -i "s/canlikullaniciparola/$CK_PAROLA/g" $BUILDER_ROOT/iso_icerik/updates/etc/shadow
+
 #slim teması ayarlanması
 if [ ! -z ${SLIM_TEMA_YOL+:} ] && [ -d $SLIM_TEMA_YOL ];then
 	mkdir -p $BUILDER_ROOT/iso_icerik/updates/usr/share/slim/themes
