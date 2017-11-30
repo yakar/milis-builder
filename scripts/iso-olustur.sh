@@ -109,7 +109,7 @@ if type python3 &> /dev/null;then
 else
 	CK_PAROLA="$6$ElNCkqJ.$uWgWHcF6DhxjO8XPxSPaK6OduxTwqXrrpILXoktW0lYKBMMrIXkmpIcn6VE8CEgbarl41cbdb.f6owQGwYrGg."
 fi
-sed -i "s/canlikullaniciparola/$CK_PAROLA/g" $BUILDER_ROOT/iso_icerik/updates/etc/shadow
+awk -i inplace -F: "BEGIN {OFS=FS;} \$1 == \"$CANLI_KULLANICI\" {\$2=\"$CK_PAROLA\"} 1"  $BUILDER_ROOT/iso_icerik/updates/etc/shadow
 
 #slim teması ayarlanması
 if [ ! -z ${SLIM_TEMA_YOL+:} ] && [ -d $SLIM_TEMA_YOL ];then
