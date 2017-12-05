@@ -142,18 +142,21 @@ if [ ! -d $LFS/var/lib/pkg/DB/milis-yukleyici ];then
 fi
 
 ### UEFI bolumu
+mesaj bilgi "UEFI bölüm oluşturuluyor..."
 if [ $UEFI == "1" ]; then
+    #cp $BUILDER_ROOT/milisefi.img $BUILDER_ROOT/iso_icerik/efiboot.img 
     mkdir -p $BUILDER_ROOT/iso_icerik/efi_tmp
-    dd if=/dev/zero bs=1M count=40 of=$BUILDER_ROOT/iso_icerik/efiboot.img
-    mkfs.vfat -n Milis_EFI $BUILDER_ROOT/iso_icerik/efiboot.img 
-    mount -o loop $BUILDER_ROOT/iso_icerik/efiboot.img $BUILDER_ROOT/iso_icerik/efi_tmp
-    cp -rf $BUILDER_ROOT/iso_icerik/boot/kernel $BUILDER_ROOT/iso_icerik/efi_tmp/
-    cp -rf $BUILDER_ROOT/iso_icerik/boot/initramfs $BUILDER_ROOT/iso_icerik/efi_tmp/
-    cp -rf $BUILDER_ROOT/efi/* $BUILDER_ROOT/iso_icerik/efi_tmp/
-    sed -i "s/^title.*/title $DAGITIM $KODADI $VERSIYON (UEFI)/g" efi/loader/entries/milis.conf
+	dd if=/dev/zero bs=1M count=40 of=$BUILDER_ROOT/iso_icerik/efiboot.img
+	mkfs.vfat -n Milis_EFI $BUILDER_ROOT/iso_icerik/efiboot.img 
+	mount -o loop $BUILDER_ROOT/iso_icerik/efiboot.img $BUILDER_ROOT/iso_icerik/efi_tmp
+	cp -rf $BUILDER_ROOT/iso_icerik/boot/kernel $BUILDER_ROOT/iso_icerik/efi_tmp/
+	cp -rf $BUILDER_ROOT/iso_icerik/boot/initramfs $BUILDER_ROOT/iso_icerik/efi_tmp/
+	cp -rf $BUILDER_ROOT/efi/* $BUILDER_ROOT/iso_icerik/efi_tmp/
+	sed -i "s/^title.*/title $DAGITIM $KODADI $VERSIYON (UEFI)/g" efi/loader/entries/milis.conf
 	sed -i "s/CDLABEL=[A-Z_]*/CDLABEL=$ISO_ETIKET/g" efi/loader/entries/milis.conf
-    umount $BUILDER_ROOT/iso_icerik/efi_tmp 
-    rm -rf $BUILDER_ROOT/iso_icerik/efi_tmp
+	umount $BUILDER_ROOT/iso_icerik/efi_tmp 
+	rm -rf $BUILDER_ROOT/iso_icerik/efi_tmp
+    
 fi
 
 # ISO oluştur 
@@ -172,7 +175,7 @@ if [ $UEFI == "1" ]; then
         -no-emul-boot -boot-load-size 4 -boot-info-table \
         -eltorito-alt-boot -e efiboot.img -isohybrid-gpt-basdat -no-emul-boot \
         -isohybrid-mbr iso_icerik/boot/isolinux/isohdpfx.bin \
-        -output "$ISODOSYA.iso" iso_icerik || echo "ISO imaj olusturalamadı";exit 1
+        -output "$ISODOSYA.iso" iso_icerik || echo "ISO imaj olusturalamadı";
 
 else
 	genisoimage -l -V $ISO_ETIKET -R -J -pad -no-emul-boot -boot-load-size 4 -boot-info-table  \
@@ -186,7 +189,7 @@ mv $ISOYOLU /mnt/
 mesaj yesil "
 	*********************************************************
 	* ISO olusturuldu..
-	* /mnt/$ISODOSYA.iso ($ISOBOYUT)
+	* /mnt/$ISODOSYA.iso ($ISOBOYUT) uefi destek=$UEFI
 	* sha256sum $HASH256
 	*********************************************************
 "
