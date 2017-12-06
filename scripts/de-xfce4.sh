@@ -16,9 +16,11 @@ cp -r $BUILDER_ROOT/$OZELLESTIRME/$MASAUSTU/.config $LFS/root/
 
 # varsayilan arkaplan
 cp -r $BUILDER_ROOT/$OZELLESTIRME/$MASAUSTU/backgrounds/milis-linux-arkaplan.png $LFS/sources/milis.git/ayarlar/
+cp -r $BUILDER_ROOT/$OZELLESTIRME/$MASAUSTU/backgrounds/milis-linux-arkaplan.png $LFS/root/ayarlar/
 
 # varsayılan milis logo
 cp -r $BUILDER_ROOT/$OZELLESTIRME/$MASAUSTU/milislogo.png $LFS/sources/milis.git/ayarlar/
+cp -r $BUILDER_ROOT/$OZELLESTIRME/$MASAUSTU/milislogo.png $LFS/rot/ayarlar/
 
 # cesitli arkaplanlar
 cp -r $BUILDER_ROOT/$OZELLESTIRME/$MASAUSTU/backgrounds/* $LFS/usr/share/backgrounds/xfce/
