@@ -134,17 +134,16 @@ if [ ! -d $LFS/var/lib/pkg/DB/milis-yukleyici ];then
 	else
 		git clone $YUKLEYICI_GITREPO $YUKLEYICI_KONUM
 	fi
-	cp -rf $YUKLEYICI_KONUM  $BUILDER_ROOT/iso_icerik/updates/opt/
+	cp -rf $YUKLEYICI_KONUM/*  $BUILDER_ROOT/iso_icerik/updates/opt/Milis-Yukleyici/
 	[ -f $BUILDER_ROOT/iso_icerik/updates/home/$CANLI_KULLANICI/Desktop/kurulum.desktop ]  && sed -i "s/Milis Linux/$DAGITIM/g"  $BUILDER_ROOT/iso_icerik/updates/home/$CANLI_KULLANICI/Desktop/kurulum.desktop
     [ -f $BUILDER_ROOT/iso_icerik/updates/home/$CANLI_KULLANICI/Masaüstü/kurulum.desktop ] && sed -i "s/Milis Linux/$DAGITIM/g"  $BUILDER_ROOT/iso_icerik/updates/home/$CANLI_KULLANICI/Masaüstü/kurulum.desktop
-	[ -f $BUILDER_ROOT/iso_icerik/updates/$YUKLEYICI_KONUM/milis-kur ] && chmod 645 $BUILDER_ROOT/iso_icerik/updates/$YUKLEYICI_KONUM/milis-kur
+	[ -f $BUILDER_ROOT/iso_icerik/updates/opt/Milis-Yukleyici/milis-kur ] && chmod 645 $BUILDER_ROOT/iso_icerik/updates/opt/Milis-Yukleyici/milis-kur
 	echo $milis_surum_no > $BUILDER_ROOT/iso_icerik/updates/etc/milis-surum
 fi
 
 ### UEFI bolumu
 mesaj bilgi "UEFI bölüm oluşturuluyor..."
 if [ $UEFI == "1" ]; then
-    #cp $BUILDER_ROOT/milisefi.img $BUILDER_ROOT/iso_icerik/efiboot.img 
     mkdir -p $BUILDER_ROOT/iso_icerik/efi_tmp
 	dd if=/dev/zero bs=1M count=40 of=$BUILDER_ROOT/iso_icerik/efiboot.img
 	mkfs.vfat -n Milis_EFI $BUILDER_ROOT/iso_icerik/efiboot.img 
@@ -152,11 +151,10 @@ if [ $UEFI == "1" ]; then
 	cp -rf $BUILDER_ROOT/iso_icerik/boot/kernel $BUILDER_ROOT/iso_icerik/efi_tmp/
 	cp -rf $BUILDER_ROOT/iso_icerik/boot/initramfs $BUILDER_ROOT/iso_icerik/efi_tmp/
 	cp -rf $BUILDER_ROOT/efi/* $BUILDER_ROOT/iso_icerik/efi_tmp/
-	sed -i "s/^title.*/title $DAGITIM $KODADI $VERSIYON (UEFI)/g" efi/loader/entries/milis.conf
-	sed -i "s/CDLABEL=[A-Z_]*/CDLABEL=$ISO_ETIKET/g" efi/loader/entries/milis.conf
+	#sed -i "s/^title.*/title $DAGITIM $KODADI $VERSIYON (UEFI)/g" efi/loader/entries/milis.conf
+	#sed -i "s/CDLABEL=[A-Z_]*/CDLABEL=$ISO_ETIKET/g" efi/loader/entries/milis.conf
 	umount $BUILDER_ROOT/iso_icerik/efi_tmp 
 	rm -rf $BUILDER_ROOT/iso_icerik/efi_tmp
-    
 fi
 
 # ISO oluştur 
@@ -176,7 +174,6 @@ if [ $UEFI == "1" ]; then
         -eltorito-alt-boot -e efiboot.img -isohybrid-gpt-basdat -no-emul-boot \
         -isohybrid-mbr iso_icerik/boot/isolinux/isohdpfx.bin \
         -output "$ISODOSYA.iso" iso_icerik || echo "ISO imaj olusturalamadı";
-
 else
 	genisoimage -l -V $ISO_ETIKET -R -J -pad -no-emul-boot -boot-load-size 4 -boot-info-table  \
 	-b boot/isolinux/isolinux.bin -c boot/isolinux/boot.cat -o $ISODOSYA.iso iso_icerik && isohybrid $ISODOSYA.iso
