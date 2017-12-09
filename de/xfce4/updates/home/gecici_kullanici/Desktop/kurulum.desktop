@@ -1,8 +1,8 @@
 [Desktop Entry]
-Path=/opt/Milis-Yukleyici
+Path=/usr/bin
 Name=Milis Linux Kurulumu
 Comment=Milis Linux Kurulumu
-Exec=sudo /opt/Milis-Yukleyici/milis-kur
+Exec=sudo milis-yukle
 Terminal=false
 Type=Application
 Icon=/sources/milis.git/ayarlar/milislogo.png
