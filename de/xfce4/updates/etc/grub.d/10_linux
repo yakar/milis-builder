@@ -30,8 +30,8 @@ CLASS="--class gnu-linux --class gnu --class os"
 
 if [ "x${GRUB_DISTRIBUTOR}" = "x" ] ; then
   OS=GNU/Linux
-  if [ -f "/etc/milis-release" ] ; then
-    OS="$(sed 's, release .*$,,g' /etc/milis-release)"
+  if [ -f "/etc/lsb-release" ] ; then
+    OS="$(sed 's, release .*$,,g' /etc/lsb-release)"
   elif [ -e "/etc/system-release" ] ; then
     OS="$(sed 's, release .*$,,g' /etc/system-release)"
   else
