@@ -26,21 +26,12 @@ datarootdir="/usr/share"
 export TEXTDOMAIN=grub
 export TEXTDOMAINDIR="${datarootdir}/locale"
 
-CLASS="--class gnu-linux --class gnu --class os"
-
-if [ "x${GRUB_DISTRIBUTOR}" = "x" ] ; then
-  OS=GNU/Linux
-  if [ -f "/etc/lsb-release" ] ; then
-    OS="$(sed 's, release .*$,,g' /etc/lsb-release)"
-  elif [ -e "/etc/system-release" ] ; then
-    OS="$(sed 's, release .*$,,g' /etc/system-release)"
-  else
-    OS=GNU/Linux
-  fi
-else
-  OS="${GRUB_DISTRIBUTOR} GNU/Linux"
-  CLASS="--class $(echo ${GRUB_DISTRIBUTOR} | tr 'A-Z' 'a-z' | cut -d' ' -f1|LC_ALL=C sed 's,[^[:alnum:]_],_,g') ${CLASS}"
-fi
+DAGITIM=`lsb_release -i -s`
+CODENAME=`lsb_release -c -s`
+VERSION=`lsb_release -r -s`
+GRUB_DISTRIBUTOR="$DAGITIM $VERSION $CODENAME"
+OS="${GRUB_DISTRIBUTOR} GNU/Linux"
+CLASS="--class $(echo ${GRUB_DISTRIBUTOR} | tr 'A-Z' 'a-z' | cut -d' ' -f1|LC_ALL=C sed 's,[^[:alnum:]_],_,g') --class gnu-linux --class gnu --class os"
 
 # loop-AES arranges things so that /dev/loop/X can be our root device, but
 # the initrds that Linux uses don't like that.
