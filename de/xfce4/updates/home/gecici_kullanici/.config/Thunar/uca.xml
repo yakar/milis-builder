@@ -141,4 +141,14 @@
 	<text-files/>
 	<video-files/>
 </action>
+<action>
+	<icon>/sources/milis.git/ayarlar/milislogo.png</icon>
+	<name>Milis Paketi Kur</name>
+	<unique-id>1515632608947163-4</unique-id>
+	<command>xterm -hold -e mps -k %F</command>
+	<description>Milis Paketi Kur</description>
+	<patterns>*</patterns>
+	<other-files/>
+	<text-files/>
+</action>
 </actions>
