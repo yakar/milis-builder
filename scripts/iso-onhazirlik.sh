@@ -91,11 +91,11 @@ done
 chroot $LFS /bin/bash -c "echo 'HOSTNAME=\"$HOSTNAME\"' > /etc/sysconfig/network"
 chroot $LFS /bin/bash -c "echo 'MANAGER=\"networkmanager\"' >> /etc/sysconfig/network"
 
-
 # baslatici olustur
 mesaj bilgi "diğer ayarlar ve yapılandırmalar";
 chroot $LFS /bin/bash -c "rm -f /boot/initramfs"
-chroot $LFS /bin/bash -c "dracut_guncelle"
+# yeni dracut paketinde ayarlanıyor.
+#chroot $LFS /bin/bash -c "dracut_guncelle"
 #plymouth tema ayarlanması
 [ -d $BUILDER_ROOT/$OZELLESTIRME/plymouth/$PLYMOUTH_TEMA ] && cp -rf $BUILDER_ROOT/$OZELLESTIRME/plymouth/$PLYMOUTH_TEMA   $LFS/usr/share/plymouth/themes/
 chroot $LFS /bin/bash -c "plymouth-set-default-theme $PLYMOUTH_TEMA"
