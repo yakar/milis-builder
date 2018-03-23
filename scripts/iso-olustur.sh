@@ -146,8 +146,9 @@ fi
 mesaj bilgi "UEFI bölüm oluşturuluyor..."
 if [ $UEFI == "1" ]; then
     mkdir -p $BUILDER_ROOT/iso_icerik/efi_tmp
-	dd if=/dev/zero bs=1M count=40 of=$BUILDER_ROOT/iso_icerik/efiboot.img
+	dd if=/dev/zero bs=1M count=60 of=$BUILDER_ROOT/iso_icerik/efiboot.img
 	mkfs.vfat -n Milis_EFI $BUILDER_ROOT/iso_icerik/efiboot.img 
+	#umount -l $BUILDER_ROOT/iso_icerik/efi_tmp 
 	mount -o loop $BUILDER_ROOT/iso_icerik/efiboot.img $BUILDER_ROOT/iso_icerik/efi_tmp
 	cp -rf $BUILDER_ROOT/iso_icerik/boot/kernel $BUILDER_ROOT/iso_icerik/efi_tmp/
 	cp -rf $BUILDER_ROOT/iso_icerik/boot/initramfs $BUILDER_ROOT/iso_icerik/efi_tmp/

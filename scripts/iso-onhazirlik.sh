@@ -16,8 +16,8 @@ fi
 
 
 # dns
-echo 'nameserver 8.8.8.8' > $LFS/etc/resolv.conf
-
+#echo 'nameserver 8.8.8.8' > $LFS/etc/resolv.conf
+cp -f /etc/resolv.conf $LFS/etc/
 
 # unmount ve mount islemleri
 _umount
@@ -31,8 +31,7 @@ cp -r /sources/milis.git/ayarlar/bashrc_chroot "$LFS"/etc/bashrc
 # mps.conf ve guncelle
 mesaj bilgi "paket sistemi guncellemesi";
 cp -r $MPSCONF $LFS/etc/
-chroot $LFS /bin/bash -c "mps -GG && mps guncelle && mps -G"
-
+chroot $LFS /bin/bash -c "mps guncelle && mps -GG && mps -G"
 
 mesaj bilgi "linux-firmware, kernel, dracut, xorg kurulumu";
 if [ -d "$LFS/root/bin/dracut" ]; then	chroot $LFS /bin/bash -c "rm -rf /root/bin/dracut"; fi
@@ -55,7 +54,6 @@ for tepaket in $(cat $BUILDER_ROOT/$OZELLESTIRME/uygulamalar); do
 		chroot $LFS /bin/bash -c "mps kur $tepaket"
 	fi
 done
-
 
 for gerekli in $(cat $BUILDER_ROOT/$OZELLESTIRME/$MASAUSTU/apps); do
 	if [ ! -d "$LFS/var/lib/pkg/DB/$gerekli" ]; then chroot $LFS /bin/bash -c "mps kur $gerekli"; fi
