@@ -8,6 +8,7 @@ iso_icerik/boot/initrd
 iso_icerik/boot/initramfs
 iso_icerik/LiveOS/*.*
 iso_icerik/updates
+iso_icerik/*.img
 git-guncelle
 .idea/
 ~*
