@@ -42,6 +42,7 @@ if [ ! -d "$LFS/var/lib/pkg/DB/kernel" ]; then	exit 1; fi
 if [ ! -f "$LFS/usr/bin/dracut" ]; then					rm -rf $LFS/usr/bin/dracut; fi # dracut dizin ise sil..
 if [ ! -d "$LFS/var/lib/pkg/DB/dracut" ]; then			chroot $LFS /bin/bash -c "mps kur dracut || true"; fi
 if [ ! -d "$LFS/var/lib/pkg/DB/cryptsetup" ]; then chroot $LFS /bin/bash -c "mps kur cryptsetup"; fi
+if [ ! -d "$LFS/var/lib/pkg/DB/syslinux" ]; then chroot $LFS /bin/bash -c "mps kur syslinux"; fi
 
 if [ ! -z ${MASAUSTU} ];then
 

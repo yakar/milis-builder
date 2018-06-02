@@ -1,0 +1,59 @@
+#Özelleştirmiş olduğunuz ayar dosyasını ayarlar altına atıp ordan referans gösterip çalıştırınız.
+
+# Dağıtım adı, Türkçe karakter kullanılmadan yazılmalıdır.
+DAGITIM="Milis Linux"
+
+# Dağıtımın Kod Adı
+KODADI="Atilla"
+
+# Dağıtım versiyon bilgisi
+VERSIYON="1.0"
+
+# Masaüstü (xfce4, mate, gnome, masaüstü yoksa boş bırakınız)
+MASAUSTU=""
+
+# Giriş Yöneticisi (slim, mdm, lxdm)
+GIRISYONETICISI="slim"
+
+# Kurulacak Ekstra Paketler
+EXTRA_PAKETLER="vim"
+
+# Hostname Bilgisi
+HOSTNAME="milis"
+
+# Canlı kullanıcı
+CANLI_KULLANICI="denemekul"
+
+# Canlı kullanıcı parola
+CANLI_KULLANICI_PAROLA="milis"
+
+# Root Parolası
+ROOT_PAROLASI="milis"
+
+ISO_ETIKET="MILIS_CALISAN"
+
+# UEFI desteği: 1=evet, 0=hayir
+UEFI="1"
+
+# Dağıtımın özelleştirilmesi için gerekli dosyaların bulunduğu klasör
+OZELLESTIRME="de"
+
+# Dağıtımın plymouth teması
+PLYMOUTH_TEMA="milis-plymouth"
+
+# Dağıtımın slim teması
+#SLIM_TEMA_YOL="/opt/milis-builder/de/slim/temalar"
+
+MPSCONF="/etc/mps.conf"
+
+# Dağıtım hazırlanması için kullanılacak klasör yolu. /mnt altında olmamalıdır.
+LFS="/mnt/milis"
+
+# Yerel Paket Sunucusu (isteğe bağlı)
+YERELPS="/media/depolama/MPS-240817"
+
+# Milis-Yükleyici konumu,yerelde varsa belirtilen konumdan kopyalayacak.
+YUKLEYICI_KONUM="/opt/Milis-Yuk-Ye"
+
+# Milis-Yükleyici git reposu yerelde yoksa burdan klon ve güncelleme alır.
+YUKLEYICI_GITREPO="https://github.com/sonakinci41/Milis-Yukleyici"
