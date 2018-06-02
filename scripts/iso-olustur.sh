@@ -32,13 +32,12 @@ if [ "$SFS_OLUSTUR" == "var" ]; then
 	cp $LFS/etc/lsb-release $LFS/etc/os-release
 
 
-
-	# kurulum.desktop dağıtım adı
-	mesaj bilgi "Masaüstü kurulum kısayolu açıklaması düzenleniyor"
-	[ -f $LFS/root/Masaüstü/kurulum.desktop ] && sed -i "s/Milis Linux/$DAGITIM/g" $LFS/root/Masaüstü/kurulum.desktop
-	[ -f $LFS/root/Desktop/kurulum.desktop ] && sed -i "s/Milis Linux/$DAGITIM/g" $LFS/root/Desktop/kurulum.desktop
-
-
+	if [ ! -z ${MASAUSTU} ];then
+		# kurulum.desktop dağıtım adı
+		mesaj bilgi "Masaüstü kurulum kısayolu açıklaması düzenleniyor"
+		[ -f $LFS/root/Masaüstü/kurulum.desktop ] && sed -i "s/Milis Linux/$DAGITIM/g" $LFS/root/Masaüstü/kurulum.desktop
+		[ -f $LFS/root/Desktop/kurulum.desktop ] && sed -i "s/Milis Linux/$DAGITIM/g" $LFS/root/Desktop/kurulum.desktop
+	fi
 	
 	# varsayılan root parolası
 	mesaj bilgi "root varsayılan parolası değiştiriliyor"
@@ -83,12 +82,18 @@ cp -r $BUILDER_ROOT/$OZELLESTIRME/syslinux/arkaplan.png iso_icerik/boot/isolinux
 
 #ek-güncellemelerin eklenmesi
 if [ -d $BUILDER_ROOT/iso_icerik/updates ]; then rm -rf iso_icerik/updates;fi
-cp -rf $BUILDER_ROOT/$OZELLESTIRME/$MASAUSTU/updates iso_icerik/
+if [ ! -z ${MASAUSTU} ];then
+	cp -rf $BUILDER_ROOT/$OZELLESTIRME/$MASAUSTU/updates iso_icerik/
+else
+	cp -rf $BUILDER_ROOT/$OZELLESTIRME/minimal/updates iso_icerik/
+fi
 mv iso_icerik/updates/home/gecici_kullanici iso_icerik/updates/home/$CANLI_KULLANICI
 echo "$CANLI_KULLANICI" > iso_icerik/updates/etc/canli_kullanici
-[ -d $BUILDER_ROOT/iso_icerik/updates/home/$CANLI_KULLANICI/Masaüstü ] && chmod 755 $BUILDER_ROOT/iso_icerik/updates/home/$CANLI_KULLANICI/Masaüstü/*.desktop
-[ -d $BUILDER_ROOT/iso_icerik/updates/home/$CANLI_KULLANICI/Desktop ]  && chmod 755 $BUILDER_ROOT/iso_icerik/updates/home/$CANLI_KULLANICI/Desktop/*.desktop
-	
+
+if [ ! -z ${MASAUSTU} ];then
+	[ -d $BUILDER_ROOT/iso_icerik/updates/home/$CANLI_KULLANICI/Masaüstü ] && chmod 755 $BUILDER_ROOT/iso_icerik/updates/home/$CANLI_KULLANICI/Masaüstü/*.desktop
+	[ -d $BUILDER_ROOT/iso_icerik/updates/home/$CANLI_KULLANICI/Desktop ]  && chmod 755 $BUILDER_ROOT/iso_icerik/updates/home/$CANLI_KULLANICI/Desktop/*.desktop
+fi
 
 # kullanici için gerekli home izinleri ve yapılacak betiğin ayarlanması
 sed -i "s/canlikullanici/$CANLI_KULLANICI/g" $BUILDER_ROOT/iso_icerik/updates/root/bin/canli_kullanici.sh
@@ -112,36 +117,37 @@ else
 fi
 awk -i inplace -F: "BEGIN {OFS=FS;} \$1 == \"$CANLI_KULLANICI\" {\$2=\"$CK_PAROLA\"} 1"  $BUILDER_ROOT/iso_icerik/updates/etc/shadow
 
-#slim teması ayarlanması
-if [ ! -z ${SLIM_TEMA_YOL+:} ] && [ -d $SLIM_TEMA_YOL ];then
-	mkdir -p $BUILDER_ROOT/iso_icerik/updates/usr/share/slim/themes
-	cp -rf $BUILDER_ROOT/$OZELLESTIRME/slim/temalar/* $BUILDER_ROOT/iso_icerik/updates/usr/share/slim/themes/
+if [ ! -z ${MASAUSTU} ];then
+	#slim teması ayarlanması
+	if [ ! -z ${SLIM_TEMA_YOL+:} ] && [ -d $SLIM_TEMA_YOL ];then
+		mkdir -p $BUILDER_ROOT/iso_icerik/updates/usr/share/slim/themes
+		cp -rf $BUILDER_ROOT/$OZELLESTIRME/slim/temalar/* $BUILDER_ROOT/iso_icerik/updates/usr/share/slim/themes/
+	fi
 fi
-
 
 # iso için zaman ayarlı sürüm no belirlemek.
 zaman_surumu=`date +%Y%m%d%H%M`
 milis_surum_no=`echo $DAGITIM | tr '[A-Z]' '[a-z]' | tr ' ' '-'`-$VERSIYON-$MASAUSTU-$zaman_surumu
 
-
-# Milis yükleyici kurulu değilse gitrepodan çekilecek.
-if [ ! -d $LFS/var/lib/pkg/DB/milis-yukleyici ];then
-	mkdir -p $BUILDER_ROOT/iso_icerik/updates/opt/
-	#Milis-Yukleyicinin eklenmesi
-	if [ -d $YUKLEYICI_KONUM ]; then 
-		cd $YUKLEYICI_KONUM
-		git pull
-		cd -
-	else
-		git clone $YUKLEYICI_GITREPO $YUKLEYICI_KONUM
+if [ ! -z ${MASAUSTU} ];then
+	# Milis yükleyici kurulu değilse gitrepodan çekilecek.
+	if [ ! -d $LFS/var/lib/pkg/DB/milis-yukleyici ];then
+		mkdir -p $BUILDER_ROOT/iso_icerik/updates/opt/
+		#Milis-Yukleyicinin eklenmesi
+		if [ -d $YUKLEYICI_KONUM ]; then 
+			cd $YUKLEYICI_KONUM
+			git pull
+			cd -
+		else
+			git clone $YUKLEYICI_GITREPO $YUKLEYICI_KONUM
+		fi
+		cp -rf $YUKLEYICI_KONUM/*  $BUILDER_ROOT/iso_icerik/updates/opt/Milis-Yukleyici/
+		[ -f $BUILDER_ROOT/iso_icerik/updates/home/$CANLI_KULLANICI/Desktop/kurulum.desktop ]  && sed -i "s/Milis Linux/$DAGITIM/g"  $BUILDER_ROOT/iso_icerik/updates/home/$CANLI_KULLANICI/Desktop/kurulum.desktop
+		[ -f $BUILDER_ROOT/iso_icerik/updates/home/$CANLI_KULLANICI/Masaüstü/kurulum.desktop ] && sed -i "s/Milis Linux/$DAGITIM/g"  $BUILDER_ROOT/iso_icerik/updates/home/$CANLI_KULLANICI/Masaüstü/kurulum.desktop
+		[ -f $BUILDER_ROOT/iso_icerik/updates/opt/Milis-Yukleyici/milis-kur ] && chmod 645 $BUILDER_ROOT/iso_icerik/updates/opt/Milis-Yukleyici/milis-kur
+		echo $milis_surum_no > $BUILDER_ROOT/iso_icerik/updates/etc/milis-surum
 	fi
-	cp -rf $YUKLEYICI_KONUM/*  $BUILDER_ROOT/iso_icerik/updates/opt/Milis-Yukleyici/
-	[ -f $BUILDER_ROOT/iso_icerik/updates/home/$CANLI_KULLANICI/Desktop/kurulum.desktop ]  && sed -i "s/Milis Linux/$DAGITIM/g"  $BUILDER_ROOT/iso_icerik/updates/home/$CANLI_KULLANICI/Desktop/kurulum.desktop
-    [ -f $BUILDER_ROOT/iso_icerik/updates/home/$CANLI_KULLANICI/Masaüstü/kurulum.desktop ] && sed -i "s/Milis Linux/$DAGITIM/g"  $BUILDER_ROOT/iso_icerik/updates/home/$CANLI_KULLANICI/Masaüstü/kurulum.desktop
-	[ -f $BUILDER_ROOT/iso_icerik/updates/opt/Milis-Yukleyici/milis-kur ] && chmod 645 $BUILDER_ROOT/iso_icerik/updates/opt/Milis-Yukleyici/milis-kur
-	echo $milis_surum_no > $BUILDER_ROOT/iso_icerik/updates/etc/milis-surum
 fi
-
 ### UEFI bolumu
 mesaj bilgi "UEFI bölüm oluşturuluyor..."
 if [ $UEFI == "1" ]; then
