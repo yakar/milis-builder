@@ -15,7 +15,6 @@
 ### END INIT INFO
 
 . /lib/lsb/init-functions
-[ -e /opt/xorg/bin/X ] && . /etc/profile 
 
 BIN_FILE="/usr/bin/lightdm"
 

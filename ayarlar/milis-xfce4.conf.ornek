@@ -10,10 +10,10 @@ KODADI="Atilla"
 VERSIYON="1.0"
 
 # Masaüstü (xfce4, mate, gnome)
-MASAUSTU="lightdm"
+MASAUSTU="xfce4"
 
 # Giriş Yöneticisi (slim, mdm, lxdm)
-GIRISYONETICISI="slim"
+GIRISYONETICISI="lightdm"
 
 # Kurulacak Ekstra Paketler
 EXTRA_PAKETLER="geany firefox vlc gimp node feh geeqie file-roller"
