@@ -101,11 +101,9 @@ sed -i "s/canlikullanici/$CANLI_KULLANICI/g" $BUILDER_ROOT/iso_icerik/updates/ro
 sed -i "s/canlikullanici/$CANLI_KULLANICI/g" $BUILDER_ROOT/iso_icerik/updates/etc/security/opasswd
 if [ $GIRISYONETICISI = "lightdm" ];then
 	sed -i "s/canlikullanici/$CANLI_KULLANICI/g" $BUILDER_ROOT/iso_icerik/updates/etc/lightdm/lightdm.conf
-	#chown lightdm:lightdm /var/lib/lightdm
-	#chown lightdm:lightdm /var/lib/lightdm-data
 fi
 sed -i "s/canlikullanici/$CANLI_KULLANICI/g" $BUILDER_ROOT/iso_icerik/updates/etc/passwd
-sed -i "s/Milis Linux Deneme Kullanıcısı/$DAGITIM $CANLI_KULLANICI/g" $BUILDER_ROOT/iso_icerik/updates/etc/passwd
+sed -i "s/Milis Linux Deneme Kullanıcısı/$CANLI_KULLANICI/g" $BUILDER_ROOT/iso_icerik/updates/etc/passwd
 sed -i "s/canlikullanici/$CANLI_KULLANICI/g" $BUILDER_ROOT/iso_icerik/updates/etc/group
 sed -i "s/canlikullanici/$CANLI_KULLANICI/g" $BUILDER_ROOT/iso_icerik/updates/etc/gshadow
 sed -i "s/canlikullanici/$CANLI_KULLANICI/g" $BUILDER_ROOT/iso_icerik/updates/etc/shadow
