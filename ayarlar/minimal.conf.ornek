@@ -13,7 +13,7 @@ VERSIYON="1.0"
 MASAUSTU=""
 
 # Giriş Yöneticisi (slim, mdm, lxdm)
-GIRISYONETICISI="slim"
+GIRISYONETICISI="lightdm"
 
 # Kurulacak Ekstra Paketler
 EXTRA_PAKETLER="vim"

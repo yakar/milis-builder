@@ -10,7 +10,7 @@ KODADI="Atilla"
 VERSIYON="1.0"
 
 # Masaüstü (xfce4, mate, gnome)
-MASAUSTU="xfce4"
+MASAUSTU="lightdm"
 
 # Giriş Yöneticisi (slim, mdm, lxdm)
 GIRISYONETICISI="slim"

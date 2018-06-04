@@ -95,10 +95,15 @@ if [ ! -z ${MASAUSTU} ];then
 	[ -d $BUILDER_ROOT/iso_icerik/updates/home/$CANLI_KULLANICI/Desktop ]  && chmod 755 $BUILDER_ROOT/iso_icerik/updates/home/$CANLI_KULLANICI/Desktop/*.desktop
 fi
 
-# kullanici için gerekli home izinleri ve yapılacak betiğin ayarlanması
+# kullanici için gerekli home izinleri ve yapılacak betiğin ayarlanması -slimde autostart a işe yarıyor
 sed -i "s/canlikullanici/$CANLI_KULLANICI/g" $BUILDER_ROOT/iso_icerik/updates/root/bin/canli_kullanici.sh
+
 sed -i "s/canlikullanici/$CANLI_KULLANICI/g" $BUILDER_ROOT/iso_icerik/updates/etc/security/opasswd
-sed -i "s/canlikullanici/$CANLI_KULLANICI/g" $BUILDER_ROOT/iso_icerik/updates/etc/slim.conf
+if [ $GIRISYONETICISI = "lightdm" ];then
+	sed -i "s/canlikullanici/$CANLI_KULLANICI/g" $BUILDER_ROOT/iso_icerik/updates/etc/lightdm/lightdm.conf
+	#chown lightdm:lightdm /var/lib/lightdm
+	#chown lightdm:lightdm /var/lib/lightdm-data
+fi
 sed -i "s/canlikullanici/$CANLI_KULLANICI/g" $BUILDER_ROOT/iso_icerik/updates/etc/passwd
 sed -i "s/Milis Linux Deneme Kullanıcısı/$DAGITIM $CANLI_KULLANICI/g" $BUILDER_ROOT/iso_icerik/updates/etc/passwd
 sed -i "s/canlikullanici/$CANLI_KULLANICI/g" $BUILDER_ROOT/iso_icerik/updates/etc/group
@@ -119,10 +124,18 @@ fi
 awk -i inplace -F: "BEGIN {OFS=FS;} \$1 == \"$CANLI_KULLANICI\" {\$2=\"$CK_PAROLA\"} 1"  $BUILDER_ROOT/iso_icerik/updates/etc/shadow
 
 if [ ! -z ${MASAUSTU} ];then
-	#slim teması ayarlanması
-	if [ ! -z ${SLIM_TEMA_YOL+:} ] && [ -d $SLIM_TEMA_YOL ];then
-		mkdir -p $BUILDER_ROOT/iso_icerik/updates/usr/share/slim/themes
-		cp -rf $BUILDER_ROOT/$OZELLESTIRME/slim/temalar/* $BUILDER_ROOT/iso_icerik/updates/usr/share/slim/themes/
+	if [ $GIRISYONETICISI = "slim" ];then
+		#slim teması ayarlanması
+		if [ ! -z ${SLIM_TEMA_YOL+:} ] && [ -d $SLIM_TEMA_YOL ];then
+			mkdir -p $BUILDER_ROOT/iso_icerik/updates/usr/share/slim/themes
+			cp -rf $BUILDER_ROOT/$OZELLESTIRME/slim/temalar/* $BUILDER_ROOT/iso_icerik/updates/usr/share/slim/themes/
+		fi
+	fi
+	if [ $GIRISYONETICISI = "lightdm" ];then
+		#lightdm teması ayarlanması
+		if [ ! -z ${LIGHTDM_TEMA_YOL+:} ] && [ -d $LIGHTDM_TEMA_YOL ];then
+			echo "lightdm tema ayarlanacak"
+		fi
 	fi
 fi
 
