@@ -10,14 +10,14 @@ for gerekli in $(cat $BUILDER_ROOT/$OZELLESTIRME/$MASAUSTU/apps); do
 done
 
 mesaj bilgi "$MASAUSTU teması yapılandırılıyor"
-chroot $LFS /bin/bash -c "gnome_masaustu_yapilandir"
+#chroot $LFS /bin/bash -c "gnome_masaustu_yapilandir"
 
 mesaj bilgi "$MASAUSTU logo tamiri"
 chroot $LFS /bin/bash -c "tamir_mate_logo"
 
 # arkaplan resimleri
 mkdir -p $LFS/usr/share/backgrounds/milis
-cp /root/ayarlar/mate/milis-arkaplan/* $LFS/usr/share/backgrounds/milis/
+cp $BUILDER_ROOT/$OZELLESTIRME/$MASAUSTU/backgrounds/* $LFS/usr/share/backgrounds/milis/
 #cp -r $BUILDER_ROOT/$OZELLESTIRME/$MASAUSTU/backgrounds/* $LFS/usr/share/backgrounds/milis
 
 # default config
