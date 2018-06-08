@@ -1,0 +1,18 @@
+#
+# This file is parsed by pam_env module
+#
+# Syntax: simple "KEY=VAL" pairs on separate lines
+#
+LANGUAGE="tr_TR.UTF-8"
+LANG="tr_TR.UTF-8"
+LC_NUMERIC="tr_TR.UTF-8"
+LC_TIME="tr_TR.UTF-8"
+LC_MONETARY="tr_TR.UTF-8"
+LC_PAPER="tr_TR.UTF-8"
+LC_IDENTIFICATION="tr_TR.UTF-8"
+LC_NAME="tr_TR.UTF-8"
+LC_ADDRESS="tr_TR.UTF-8"
+LC_TELEPHONE="tr_TR.UTF-8"
+LC_MEASUREMENT="tr_TR.UTF-8"
+BROWSER=/usr/bin/firefox
+EDITOR=nano
