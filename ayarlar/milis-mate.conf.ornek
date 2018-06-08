@@ -16,7 +16,7 @@ MASAUSTU="mate"
 GIRISYONETICISI="lightdm"
 
 # Kurulacak Ekstra Paketler
-EXTRA_PAKETLER="firefox vlc gimp file-roller"
+EXTRA_PAKETLER="firefox vlc gimp"
 
 # Hostname Bilgisi
 HOSTNAME="milis"
